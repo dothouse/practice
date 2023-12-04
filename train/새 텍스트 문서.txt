@@ -1,0 +1,7 @@
+http://www.nsdi.go.kr/lxportal/?menuno=4077
+
+https://www.localdata.go.kr/main.do
+
+https://data.kric.go.kr/rips/M_01_02/detail.do?id=183&service=convenientInfo&operation=stationInfo&page=2
+
+http://openapi.nsdi.go.kr/nsdi/eios/ServiceDetail.do?svcSe=S&svcId=S030
