@@ -6,7 +6,7 @@ bp = Blueprint('main', __name__, url_prefix='/')
 
 @bp.route('/')
 def jeju_map():
-    return 'jeju_map'
+    return redirect(url_for('select.slist'))
 
 @bp.route('/pension')
 def pension():
@@ -19,3 +19,8 @@ def tour():
 @bp.route('/office')
 def office():
     return redirect(url_for('office.olist'))
+
+@bp.route('/restaurant')
+def restaurant():
+    return redirect(url_for('restaurant.rlist'))
+
