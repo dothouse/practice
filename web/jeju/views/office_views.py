@@ -7,5 +7,5 @@ bp = Blueprint('office', __name__, url_prefix='/office')
 
 @bp.route('/list')
 def olist():
-    return render_template('./office/office_list.html')
+    return render_template('office/office_list.html')
 

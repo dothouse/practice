@@ -7,5 +7,5 @@ bp = Blueprint('pension', __name__, url_prefix='/pension')
 
 @bp.route('/list')
 def plist():
-    return render_template('./pension/pension_list.html')
+    return render_template('pension/pension_list.html')
 

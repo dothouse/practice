@@ -24,3 +24,6 @@ def office():
 def restaurant():
     return redirect(url_for('restaurant.rlist'))
 
+@bp.route('/result')
+def result():
+    return redirect(url_for('result.show_result'))

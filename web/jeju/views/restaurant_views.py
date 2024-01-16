@@ -7,5 +7,5 @@ bp = Blueprint('restaurant', __name__, url_prefix='/restaurant')
 
 @bp.route('/list')
 def rlist():
-    return render_template('./restaurant/restaurant_list.html')
+    return render_template('restaurant/restaurant_list.html')
 

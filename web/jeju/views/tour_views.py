@@ -7,4 +7,4 @@ bp = Blueprint('tour', __name__, url_prefix='/tour')
 
 @bp.route('/list')
 def tlist():
-    return render_template('./tour/tour_list.html')
+    return render_template('tour/tour_list.html')
