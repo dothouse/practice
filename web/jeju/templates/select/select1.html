@@ -10,33 +10,25 @@
 <div class="badge bg-light text-dark p-2 text-start">
     <h3>여행타입을 골라주세요</h3>
     <form action='select2' method="post" class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'
-    data-bs-theme="light">
-        <p>반려견</p>
-        <select name="pet" id="pet_id" class = 'dropdown-item rounded-2'>
-                <option value="petType1">동반</option>
-                <option value="petType2">미동반</option>
-        </select><br>
+    data-bs-theme="light"  name = 'tour_submit' onsubmit="return chkSum();" >
         <p>여행타입</p>
-        <select name="tour" id="lang">
-            <option value="tourType1">가족 - 아이</option>
-            <option value="tourType2">일반</option>
-            <option value="tourType3">체험형</option>
-            <option value="tourType4">맛집형</option>
-            <option value="tourType5">올레길</option>
-            <option value="tourType6">유형6</option>
-            <option value="tourType7">유형7</option>
-            <option value="tourType8">유형8</option>
+        <select name="month" id="id_month">
+            <option value="monthType1">가족 - 아이</option>
+            <option value="monthType2">일반</option>
+            <option value="monthType3">체험형</option>
+            <option value="monthType4">맛집형</option>
+            <option value="monthType5">올레길</option>
         </select><br>
         <!-- 선택지-->
         <!-- https://imivory.tistory.com/entry/javascript-selectbox-%EC%84%A0%ED%83%9D%EC%97%90-%EB%94%B0%EB%9D%BC-%EB%91%90%EB%B2%88%EC%A7%B8-selectbox-%EA%B0%92-%EB%B3%80%ED%99%94-->
         <p>선호관광지 유형</p>
-        <select name = 'spot1' onchange="categoryChange(this)">
-             <option>선호을 선택하세요</option>
-             <option value="spotType1">관광유형 1</option>
-             <option value="spotType2">관광유형 2</option>
-             <option value="spotType3">관광유형 3</option>
-             <option value="spotType4">관광유형 4</option>
-             <option value="spotType5">관광유형 5</option>
+        <select name = 'spot1' id = 'id_spot1' onchange="categoryChange(this)">
+             <option value="">선호을 선택하세요</option>
+             <option value="spot1Type1">관광유형 1</option>
+             <option value="spot1Type2">관광유형 2</option>
+             <option value="spot1Type3">관광유형 3</option>
+             <option value="spot1Type4">관광유형 4</option>
+             <option value="spot1Type5">관광유형 5</option>
         </select><br>
         <!--변화하는 선택지-->
         <p>선호관광지 세부유형</p>
@@ -45,50 +37,38 @@
         </select><br>
 
         <p>맛집</p>
-            <select name="trip" id="trip">
-                <option value="tourType1">유형1</option>
-                <option value="tourType2">유형2</option>
-                <option value="tourType3">유형3</option>
-                <option value="tourType4">유형4</option>
-                <option value="tourType5">유형5</option>
-                <option value="tourType6">유형6</option>
-                <option value="tourType7">유형7</option>
-                <option value="tourType8">유형8</option>
+            <select name="food" id="id_food">
+                <option value="foodType1">유형1</option>
+                <option value="foodType2">유형2</option>
+                <option value="foodType3">유형3</option>
+                <option value="foodType4">유형4</option>
+                <option value="foodType5">유형5</option>
+                <option value="foodType6">유형6</option>
+                <option value="foodType7">유형7</option>
+                <option value="foodType8">유형8</option>
             </select><br>
         <p>숙소시설 </p>
-            <select name="office" id="trip">
-                <option value="officeType1">유형1</option>
-                <option value="officeType2">유형2</option>
-                <option value="officeType3">유형3</option>
-                <option value="officeType4">유형4</option>
-                <option value="officeType5">유형5</option>
-                <option value="officeType6">유형6</option>
-                <option value="officeType7">유형7</option>
-                <option value="officeType8">유형8</option>
-            </select><br>
-        <p>주변필수시설 </p>
-            <select name="info" id="trip">
-                <option value="officeType1">유형1</option>
-                <option value="officeType2">유형2</option>
-                <option value="officeType3">유형3</option>
-                <option value="officeType4">유형4</option>
-                <option value="officeType5">유형5</option>
-                <option value="officeType6">유형6</option>
-                <option value="officeType7">유형7</option>
-                <option value="officeType8">유형8</option>
-            </select><br>
+            <ul class= "list-group">
+                <li class= "list-group-item"> 반려동물 <input type="checkbox" name="pet" value="add_pet"> </li>
+                <li class= "list-group-item"> 수영장 <input type="checkbox" name="pool" value="add_pool"> </li>
+                <li class= "list-group-item"> 마당 <input type="checkbox" name="garden" value="add_garden"></li>
+                <li class= "list-group-item"> 바다 <input type="checkbox" name="sea" value="add_sea"></li>
+                <li class= "list-group-item"> 관리비 없음 <input type="checkbox" name="nocost" value="add_nocost"></li>
+                <li class= "list-group-item"> 관리비 없음 <input type="checkbox" name="bus" value="add_bus"></li>
+            </ul><br>
 
         <p>추가선택</p>
             <ul class= "list-group">
-                <li class= "list-group-item"> 반려동물 <input type="checkbox" name="name1" value="add_pet"> </li>
-                <li class= "list-group-item"> 치안(경찰서/지구대) <input type="checkbox" name="name2" value="add_police"></li>
-                <li class= "list-group-item"> 소품샵/기념품샵 <input type="checkbox" name="name3" value="add_gift"></li>
-                <li class= "list-group-item"> 대중교통(버스) <input type="checkbox" name="name3" value="add_bus"></li>
-                <li class= "list-group-item"> 소품샵 <input type="checkbox" name="name3" value="value5"></li>
-                <li class= "list-group-item"> 소품샵 <input type="checkbox" name="name3" value="value6"></li>
+                <li class= "list-group-item"> 치안(경찰서/지구대) <input type="checkbox" name="police" value="add_police"></li>
+                <li class= "list-group-item"> 소품샵/기념품샵 <input type="checkbox" name="gift" value="add_gift"></li>
+                <li class= "list-group-item"> 은행 <input type="checkbox" name="bank" value="add_bank"></li>
+                <li class= "list-group-item"> 약국 <input type="checkbox" name="parm" value="add_parm"></li>
+                <li class= "list-group-item"> ??? <input type="checkbox" name="name3" value="value6"></li>
             </ul>
 
         <input type = 'submit' class="btn btn-warning">
+
+
     </form>
 
 
@@ -100,18 +80,18 @@
 
 <!--선호 관광지 세부 옵션-->
 function categoryChange(e) {
-	var id_spot2_spotType1 = ["유형a_1", "유형a_2", "유형a_3", "유형a_4"];
-	var id_spot2_spotType2 = ["유형b_1", "유형b_2", "유형b_4", "유형b_5"];
-	var id_spot2_spotType3 = ["유형c_1", "유형c_2", "유형c_3"];
-	var id_spot2_spotType4 = ["유형d_1", "유형d_2", "유형d_3"];
-	var id_spot2_spotType5 = ["유형e_1", "유형e_2", "유형e_3"];
+	var id_spot2_spot2Type1 = ["유형a_1", "유형a_2", "유형a_3", "유형a_4"];
+	var id_spot2_spot2Type2 = ["유형b_1", "유형b_2", "유형b_4", "유형b_5"];
+	var id_spot2_spot2Type3 = ["유형c_1", "유형c_2", "유형c_3"];
+	var id_spot2_spot2Type4 = ["유형d_1", "유형d_2", "유형d_3"];
+	var id_spot2_spot2Type5 = ["유형e_1", "유형e_2", "유형e_3"];
 	var target = document.getElementById("id_spot2");
 
-	if(e.value == "spotType1") var d = id_spot2_spotType1;
-	else if(e.value == "spotType2") var d = id_spot2_spotType2;
-	else if(e.value == "spotType3") var d = id_spot2_spotType3;
-	else if(e.value == "spotType4") var d = id_spot2_spotType4;
-	else if(e.value == "spotType5") var d = id_spot2_spotType5;
+	if(e.value == "spot1Type1") var d = id_spot2_spot2Type1;
+	else if(e.value == "spot1Type2") var d = id_spot2_spot2Type2;
+	else if(e.value == "spot1Type3") var d = id_spot2_spot2Type3;
+	else if(e.value == "spot1Type4") var d = id_spot2_spot2Type4;
+	else if(e.value == "spot1Type5") var d = id_spot2_spot2Type5;
 
 	target.options.length = 0;
 
@@ -122,5 +102,7 @@ function categoryChange(e) {
         target.appendChild(opt);
 	}
 }
+
+
 </script>
 {% endblock %}

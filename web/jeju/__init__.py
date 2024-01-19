@@ -32,3 +32,4 @@ def create_app():
     app.register_blueprint(result_views.bp)
 
     return app
+

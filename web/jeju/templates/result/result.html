@@ -8,22 +8,32 @@
 </head>
     <body>
     <div>
-        <h3>펜션이름 : {{pension.title}}</h3><br>
+        <h3>펜션이름 : {{pension_name}}</h3><br>
+        <h3>경도 : {{pension_detail[0].longitude}}</h3><br>
+        <h3>위도 : {{pension_detail[0].latitude}}</h3><br>
+
     </div>
 
     <div>
     <ul>
-        <li> 경찰서</li>
+        <li> 가장 가까운 병원 : {{ near_hospital.name.values[0]}} - {{ near_hospital.addr.values[0]}} / 거리 {{ near_hospital.haver.values[0]}}</li>
+        <li> 가장 가까운 병원(일요일) : {{ near_hospital_sun.name.values[0]}} - {{ near_hospital_sun.addr.values[0]}} / 거리 {{ near_hospital_sun.haver.values[0]}}</li>
+        <li> 가장 가까운 약국 : {{ near_parm.name.values[0]}} - {{ near_parm.addr.values[0]}} / 거리 {{ near_parm.haver.values[0]}}</li>
+        <li> 가장 가까운 마트 : {{ near_mart.name.values[0]}} - {{ near_mart.addr.values[0]}} / 거리 {{ near_mart.haver.values[0]}}</li>
+        <li> 가장 가까운 경찰서 : {{ near_police.name.values[0]}} - {{ near_police.addr.values[0]}} / 거리 {{ near_police.haver.values[0]}}</li>
+
+
         <li> <a href = "http://localhost:5000/info/tour">관광/체험</a></li>
-        <li> <a href = "http://localhost:5000/info/office">생활필수</a></li>
+        <li> <a href = "http://localhost:5000/info/office">기념품샵</a></li>
         <li> <a href = "http://localhost:5000/info/restaurant">식당</a></li>
     </ul>
-
+    </div>
+    <div>
+        <h1>숙소 주변지도</h1>
+        {{ iframe|safe }}
     </div>
 
 
-        <div>
-        </div>
     </body>
 </html>
 {% endblock %}
