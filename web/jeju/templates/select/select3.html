@@ -22,17 +22,19 @@
                     <li class="list-group-item">
                         <h4>숙소1</h4>
                         <hr>
-                        <p>숙소이름 -> {{ pension1.name.values[0] }}</p>
-                        <p>숙소점수 -> {{ pension1.score.values[0] }}</p>
+                        <p>숙소이름 -> {{ pension1_score.name.values[0] }}</p>
+                        <p>숙소점수 -> {{ pension1_score.score.values[0] }}</p>
+                        <p>숙소평점 -> {{ pension1_detail.rating }}</p>
+                        <p>30일 가격 -> {{ pension1_detail.price }}</p>
 
-                        <p>주변 병원 갯수 -> {{ pension1.hospital.values[0] }}</p>
-                        <p>주변 약국 갯수 -> {{ pension1.parm.values[0] }}</p>
-                        <p>주변 마트 갯수 -> {{ pension1.mart.values[0] }}</p>
-                        <p>주변 은행 갯수 -> {{ pension1.bank.values[0] }}</p>
+                        <p>주변 병원 갯수 -> {{ pension1_score.hospital.values[0] }}</p>
+                        <p>주변 약국 갯수 -> {{ pension1_score.parm.values[0] }}</p>
+                        <p>주변 마트 갯수 -> {{ pension1_score.mart.values[0] }}</p>
+                        <p>주변 은행 갯수 -> {{ pension1_score.bank.values[0] }}</p>
                         <p>주변 경찰 갯수 -> </p>
                         <form action='pension' method="post" class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
-                            <input type="hidden" name="pension_name" value="{{ pension1.name.values[0] }}">
-                            <input type = 'submit' class="btn btn-secondary" value = '정보 보기' >
+                            <input type="hidden" name="pension_name" value="{{ pension1_score.name.values[0] }}">
+                            <input type = 'submit' class="btn btn-secondary" value = '상세정보 보기' >
                         </form>
                     </li>
                 </ul>
@@ -54,17 +56,19 @@
                     <li class="list-group-item">
                         <h4>숙소2</h4>
                         <hr>
-                        <p>숙소이름 -> {{ pension2.name.values[0] }}</p>
-                        <p>숙소점수 -> {{ pension2.score.values[0] }}</p>
+                        <p>숙소이름 -> {{ pension2_score.name.values[0] }}</p>
+                        <p>숙소점수 -> {{ pension2_score.score.values[0] }}</p>
+                        <p>숙소평점 -> {{ pension2_detail.rating }}</p>
+                        <p>30일 가격 -> {{ pension2_detail.price }}</p>
 
-                        <p>주변 병원 갯수 -> {{ pension2.hospital.values[0] }}</p>
-                        <p>주변 약국 갯수 -> {{ pension2.parm.values[0] }}</p>
-                        <p>주변 마트 갯수 -> {{ pension2.mart.values[0] }}</p>
-                        <p>주변 은행 갯수 -> {{ pension2.bank.values[0] }}</p>
+                        <p>주변 병원 갯수 -> {{ pension2_score.hospital.values[0] }}</p>
+                        <p>주변 약국 갯수 -> {{ pension2_score.parm.values[0] }}</p>
+                        <p>주변 마트 갯수 -> {{ pension2_score.mart.values[0] }}</p>
+                        <p>주변 은행 갯수 -> {{ pension2_score.bank.values[0] }}</p>
                         <p>주변 경찰 갯수 -> </p>
                         <form action='pension' method="post" class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
-                            <input type="hidden" name="pension_name" value="{{ pension2.name.values[0] }}">
-                            <input type = 'submit' class="btn btn-secondary" value = '정보 보기' >
+                            <input type="hidden" name="pension_name" value="{{ pension2_score.name.values[0] }}">
+                            <input type = 'submit' class="btn btn-secondary" value = '상세정보 보기' >
                         </form>
                     </li>
                 </ul>
@@ -87,17 +91,19 @@
                     <li class="list-group-item">
                         <h4>숙소3</h4><hr>
 
-                        <p>숙소이름 -> {{ pension3.name.values[0] }}</p>
-                        <p>숙소점수 -> {{ pension3.score.values[0] }}</p>
+                        <p>숙소이름 -> {{ pension3_score.name.values[0] }}</p>
+                        <p>숙소점수 -> {{ pension3_score.score.values[0] }}</p>
+                        <p>숙소평점 -> {{ pension3_detail.rating }}</p>
+                        <p>30일 가격 -> {{ pension3_detail.price }}</p>
 
-                        <p>주변 병원 갯수 -> {{ pension3.hospital.values[0] }}</p>
-                        <p>주변 약국 갯수 -> {{ pension3.parm.values[0] }}</p>
-                        <p>주변 마트 갯수 -> {{ pension3.mart.values[0] }}</p>
-                        <p>주변 은행 갯수 -> {{ pension3.bank.values[0] }}</p>
+                        <p>주변 병원 갯수 -> {{ pension3_score.hospital.values[0] }}</p>
+                        <p>주변 약국 갯수 -> {{ pension3_score.parm.values[0] }}</p>
+                        <p>주변 마트 갯수 -> {{ pension3_score.mart.values[0] }}</p>
+                        <p>주변 은행 갯수 -> {{ pension3_score.bank.values[0] }}</p>
                         <p>주변 경찰 갯수 -> </p>
                         <form action='pension' method="post" class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
-                            <input type="hidden" name="pension_name" value="{{ pension3.name.values[0] }}">
-                            <input type = 'submit' class="btn btn-secondary" value = '정보 보기' >
+                            <input type="hidden" name="pension_name" value="{{ pension3_score.name.values[0] }}">
+                            <input type = 'submit' class="btn btn-secondary" value = '상세정보 보기' >
                         </form>
                     </li>
                 </ul>
@@ -118,15 +124,15 @@
                          <h4>숙소를 결정하셨습니까?</h4>
                          <select name="finalPension" id="id_ final">
                              {% if pension1_chk == 1 %}
-                             <option value="{{ pension1.name.values[0] }}">숙소1</option>
+                             <option value="{{ pension1_score.name.values[0] }}">숙소1</option>
                              {% endif %}
 
                              {% if pension2_chk == 1  %}
-                             <option value="{{ pension2.name.values[0] }}">숙소2</option>
+                             <option value="{{ pension2_score.name.values[0] }}">숙소2</option>
                              {% endif %}
 
                              {% if pension3_chk == 1  %}
-                             <option value="{{ pension3.name.values[0] }}">숙소3</option>
+                             <option value="{{ pension3_score.name.values[0] }}">숙소3</option>
                              {% endif %}
                          <input type = 'submit' class="btn btn-warning" value="결정">
                          </select>

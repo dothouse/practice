@@ -7,7 +7,7 @@ import folium
 from haversine import haversine
 
 from jeju import db
-from jeju.models import selectData, pension, Hospital, Police, Mart, Bank, Gift, Parm
+from jeju.models import selectData, Pension, Hospital, Police, Mart, Bank, Gift, Parm
 
 bp = Blueprint('result', __name__, url_prefix='/result')
 
@@ -17,15 +17,15 @@ bp = Blueprint('result', __name__, url_prefix='/result')
 def mapping():
 
     pension_name = request.form['finalPension']
-    pension_detail = db.session.query(pension).filter(pension.pensionID == pension_name).all()
+    pension_detail = db.session.query(Pension).filter(Pension.pensionID == pension_name).all()
 
     pension_lat = pension_detail[0].latitude
     pension_lng = pension_detail[0].longitude
 
     pension_map = folium.Map(location=[pension_lat, pension_lng], zoom_start=14)
 
-    pension_map.get_root().width = "800px"
-    pension_map.get_root().height = "600px"
+    pension_map.get_root().width = "100%"
+    pension_map.get_root().height = "800px"
 
     # 숙소 위치
     folium.Marker([pension_lat, pension_lng],

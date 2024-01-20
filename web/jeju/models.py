@@ -37,7 +37,7 @@ class TestData(db.Model):
     cnt_20km = db.Column(db.Float, nullable=False)
 
 
-class pension(db.Model):
+class Pension(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     day = db.Column(db.Integer, nullable=False)

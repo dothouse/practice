@@ -4,7 +4,7 @@ from werkzeug.utils import redirect
 
 from jeju import db
 
-from jeju.models import pension
+from jeju.models import Pension
 
 
 bp = Blueprint('pension', __name__, url_prefix='/select')
@@ -13,7 +13,7 @@ bp = Blueprint('pension', __name__, url_prefix='/select')
 def choice_pension():
 
     pension_name = request.form['pension_name']
-    pension_detail = db.session.query(pension).filter(pension.pensionID == pension_name).all()
+    pension_detail = db.session.query(Pension).filter(Pension.pensionID == pension_name).all()
 
     return render_template('select/pension_info.html',
                             pension_name = pension_name, pension_detail = pension_detail)

@@ -14,7 +14,7 @@ from sqlalchemy import func
 
 from jeju import db
 
-from jeju.models import TestData, selectData, pension
+from jeju.models import TestData, selectData, Pension
 
 
 bp = Blueprint('select', __name__, url_prefix='/select')
@@ -187,19 +187,19 @@ def show_select3():
     select_value = db.session.query(selectData).order_by(selectData.id.desc())[0]
 
     # query filtering
-    selected_query = db.session.query(pension)
+    selected_query = db.session.query(Pension)
     if select_value.pet == 1:
-        selected_query = selected_query.filter(pension.ammen.like('%반려동물%'))
+        selected_query = selected_query.filter(Pension.ammen.like('%반려동물%'))
     if select_value.pool == 1:
-        selected_query = selected_query.filter(pension.ammen.like('%수영장%'))
+        selected_query = selected_query.filter(Pension.ammen.like('%수영장%'))
     if select_value.garden == 1:
-        selected_query = selected_query.filter(pension.ammen.like('%마당%'))
+        selected_query = selected_query.filter(Pension.ammen.like('%마당%'))
     if select_value.sea == 1:
-        selected_query = selected_query.filter(pension.ammen.like('%바다%'))
+        selected_query = selected_query.filter(Pension.ammen.like('%바다%'))
     if select_value.nocost == 1:
-        selected_query = selected_query.filter(pension.ammen.like('%관리비 없음%'))
+        selected_query = selected_query.filter(Pension.ammen.like('%관리비 없음%'))
     if select_value.bus == 1:
-        selected_query = selected_query.filter(pension.ammen.like('%대중교통%'))
+        selected_query = selected_query.filter(Pension.ammen.like('%대중교통%'))
     result_query = selected_query.all()
 
     # query filtering method 2
@@ -214,8 +214,8 @@ def show_select3():
     #          .filter(TestData.type == 1).filter(pension.pensionID.in_(result_pensionID_list)).all())
     
     for i in range(1, 5):
-        globals()['type'+str(i)] = (db.session.query(TestData).join(pension, TestData.pensionID == pension.pensionID)
-                                      .filter(TestData.type == 1).filter(pension.pensionID.in_(result_pensionID_list)).all())
+        globals()['type'+str(i)] = (db.session.query(TestData).join(Pension, TestData.pensionID == Pension.pensionID)
+                                      .filter(TestData.type == 1).filter(Pension.pensionID.in_(result_pensionID_list)).all())
 
 
     temp_list = []
@@ -231,7 +231,7 @@ def show_select3():
 
         score = (hospital * select_value.hospital + parm * select_value.hospital +
                  mart * select_value.mart + bank * select_value.bank + bbb)
-        temp_list.append([name, score, hospital, parm, mart, bank])
+        temp_list.append([name, int(score), int(hospital), int(parm), int(mart), int(bank)])
 
     test_df = pd.DataFrame(temp_list)
     test_df.columns = ['name', 'score', 'hospital', 'parm', 'mart', 'bank']
@@ -241,27 +241,56 @@ def show_select3():
     # score1, score2, score3 = score_list.unique().head(3).values - ndarray는 head가 불가능해서
     if len(score_list.unique()) == 1:
         score1 = score_list.unique()[0].tolist()
-        pension1, pension1_chk = test_df[test_df['score'] == score1], 1
-        pension2, pension2_chk = 'none', 0
-        pension3, pension3_chk = 'none', 0
+        pension1_score, pension1_chk = test_df[test_df['score'] == score1], 1
+        pension2_score, pension2_chk = 'none', 0
+        pension3_score, pension3_chk = 'none', 0
 
     elif len(score_list.unique()) == 2:
         score1, score2 = score_list.unique()[0:2].tolist()
-        pension1, pension1_chk = test_df[test_df['score'] == score1], 1
-        pension2, pension2_chk = test_df[test_df['score'] == score1], 1
-        pension3 = 'none'
+        pension1_score, pension1_chk = test_df[test_df['score'] == score1], 1
+        pension2_score, pension2_chk = test_df[test_df['score'] == score2], 1
+        pension3_score, pension3_chk = 'none', 0
     else:
         score1, score2, score3 = score_list.unique()[0:3].tolist()
-        pension1, pension1_chk = test_df[test_df['score'] == score1], 1
-        pension2, pension2_chk = test_df[test_df['score'] == score1], 1
-        pension3, pension3_chk = test_df[test_df['score'] == score1], 1
+        pension1_score, pension1_chk = test_df[test_df['score'] == score1], 1
+        pension2_score, pension2_chk = test_df[test_df['score'] == score2], 1
+        pension3_score, pension3_chk = test_df[test_df['score'] == score3], 1
 
+
+    #
+    # for i in range(1, 4):
+    #     if globals()['pension' + str(i) + '_chk'] == 1:
+    #         globals()['pension' + str(i) + '_name'] = globals()['pension' + str(i) + '.name.values'][0]
+    #         globals()['pension' + str(i) + '_detail'] = db.session.query(Pension).filter(Pension.pensionID ==
+    #                                                                                      globals()['pension' + str(i) + '_name']).all()[0]
+    #     else :
+    #         globals()['pension' + str(i) + '_detail'] = 'none'
+
+
+    if pension1_chk == 1:
+        pension1_name = pension1_score.name.values[0]
+        pension1_detail = db.session.query(Pension).filter(Pension.pensionID == pension1_name).all()[0]
+    else :
+        pension1_detail = "none"
+
+    if pension2_chk == 1:
+        pension2_name = pension2_score.name.values[0]
+        pension2_detail = db.session.query(Pension).filter(Pension.pensionID == pension2_name).all()[0]
+    else :
+        pension2_detail = "none"
+
+    if pension3_chk == 1:
+        pension3_name = pension3_score.name.values[0]
+        pension3_detail = db.session.query(Pension).filter(Pension.pensionID == pension3_name).all()[0]
+    else :
+        pension3_detail = "none"
 
     return render_template("select/select3.html",
                             result = result_query,
                            test = test_df,
-                           pension1 = pension1, pension2 = pension2, pension3 = pension3,
-                           pension1_chk =pension1_chk, pension2_chk = pension2_chk, pension3_chk= pension3_chk)
+                           pension1_score = pension1_score, pension2_score = pension2_score, pension3_score = pension3_score,
+                           pension1_chk =pension1_chk, pension2_chk = pension2_chk, pension3_chk= pension3_chk,
+                           pension1_detail = pension1_detail, pension2_detail = pension2_detail, pension3_detail = pension3_detail)
 
 
 
