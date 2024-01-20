@@ -7,7 +7,7 @@ import folium
 from haversine import haversine
 
 from jeju import db
-from jeju.models import TestData, TestTour, pension, Hospital, Police, Mart, Bank, Gift, Parm
+from jeju.models import selectData, pension, Hospital, Police, Mart, Bank, Gift, Parm
 
 bp = Blueprint('result', __name__, url_prefix='/result')
 

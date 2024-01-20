@@ -1,0 +1,5 @@
+pip install flask  pandas  flask_wtf flask_migrate sqlalchemy haversine folium 
+
+
+
+

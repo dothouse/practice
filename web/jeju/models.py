@@ -1,9 +1,26 @@
 from jeju import db
 
-class TestTour(db.Model):
+class selectData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    tour = db.Column(db.String(200), nullable=False)
+    month = db.Column(db.INT, nullable=False)
+    month_str= db.Column(db.String(200), nullable=False)
+    spot1 = db.Column(db.INT, nullable=False)
+    spot1_str= db.Column(db.String(200), nullable=False)
+    spot2 = db.Column(db.INT, nullable=False)
+    spot2_str= db.Column(db.String(200), nullable=False)
+    food = db.Column(db.INT, nullable=False)
+    food_str= db.Column(db.String(200), nullable=False)
     pet = db.Column(db.INT, nullable=False)
+    pool = db.Column(db.INT, nullable=False)
+    garden = db.Column(db.INT, nullable=False)
+    sea = db.Column(db.INT, nullable=False)
+    nocost = db.Column(db.INT, nullable=False)
+    bus = db.Column(db.INT, nullable=False)
+    police = db.Column(db.INT, nullable=False)
+    hospital = db.Column(db.INT, nullable=False)
+    bank = db.Column(db.INT, nullable=False)
+    mart = db.Column(db.INT, nullable=False)
+    gift = db.Column(db.INT, nullable=False)
 
 
 class TestData(db.Model):
