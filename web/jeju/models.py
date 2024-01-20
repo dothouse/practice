@@ -11,6 +11,7 @@ class selectData(db.Model):
     food = db.Column(db.INT, nullable=False)
     food_str= db.Column(db.String(200), nullable=False)
     pet = db.Column(db.INT, nullable=False)
+    pet_str = db.Column(db.String(200), nullable=False)
     pool = db.Column(db.INT, nullable=False)
     garden = db.Column(db.INT, nullable=False)
     sea = db.Column(db.INT, nullable=False)

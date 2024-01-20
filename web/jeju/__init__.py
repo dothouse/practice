@@ -22,13 +22,13 @@ def create_app():
     from . import models
 
     #blueprint
-    from .views import main_views, select_views, info_views, select_pension_views
+    from .views import main_views, select_views, info_views, pension_info_views
     from .views import result_views
 
     app.register_blueprint(main_views.bp)
     app.register_blueprint(select_views.bp)
     app.register_blueprint(info_views.bp)
-    app.register_blueprint(select_pension_views.bp)
+    app.register_blueprint(pension_info_views.bp)
     app.register_blueprint(result_views.bp)
 
     return app

@@ -1,6 +1,8 @@
 import pandas as pd
 from flask import Blueprint, render_template, request, url_for, session, g, flash
 
+from sqlalchemy import and_
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
@@ -130,9 +132,16 @@ def show_select2():
         foodType_str = '맛집유형8'
         foodType = 8
 
+    if request.form['pet'] == 'petType1':
+        petType_str = '미동반'
+        petType = 0
+    elif request.form['pet'] == 'petType2':
+        petType_str = '동반'
+        petType = 1
+
 
     # 숙소 추가 옵션
-    pension_opt_list = ['pet', 'pool', 'garden', 'sea', 'nocost', 'bus']
+    pension_opt_list = ['pool', 'garden', 'sea', 'nocost', 'bus']
     for pension_opt in pension_opt_list:
         try:
             request.form[pension_opt]
@@ -141,6 +150,7 @@ def show_select2():
         except:
             globals()[str(pension_opt)] = 0
             globals()[str(pension_opt) +'_str'] = '미선택'
+
 
 
     # 주변 추가 옵션
@@ -159,7 +169,8 @@ def show_select2():
                           spot1 = spot1Type, spot1_str = spot1Type_str,
                           spot2 = spot2Type, spot2_str = spot2Type_str,
                           food = foodType, food_str = foodType_str,
-                          pet = pet, pool = pool, garden = garden, sea = sea, nocost = nocost, bus = bus,
+                          pet = petType, pet_str = petType_str,
+                          pool = pool, garden = garden, sea = sea, nocost = nocost, bus = bus,
                           police = police, hospital = hospital, bank = bank, mart = mart, gift = gift)
     db.session.add(new_data)
     db.session.commit()
@@ -174,45 +185,84 @@ def show_select2():
 def show_select3():
 
     select_value = db.session.query(selectData).order_by(selectData.id.desc())[0]
-    pet_yes = select_value.pet
 
-    fil_con = "TestData.type == 1, pension.ammen.like('%반려동물%'), pension.ammen.like('%대중교통%')"
+    # query filtering
+    selected_query = db.session.query(pension)
+    if select_value.pet == 1:
+        selected_query = selected_query.filter(pension.ammen.like('%반려동물%'))
+    if select_value.pool == 1:
+        selected_query = selected_query.filter(pension.ammen.like('%수영장%'))
+    if select_value.garden == 1:
+        selected_query = selected_query.filter(pension.ammen.like('%마당%'))
+    if select_value.sea == 1:
+        selected_query = selected_query.filter(pension.ammen.like('%바다%'))
+    if select_value.nocost == 1:
+        selected_query = selected_query.filter(pension.ammen.like('%관리비 없음%'))
+    if select_value.bus == 1:
+        selected_query = selected_query.filter(pension.ammen.like('%대중교통%'))
+    result_query = selected_query.all()
 
-    if pet_yes == 1:
-        type1 = db.session.query(TestData).join(pension, pension.pensionID == TestData.pensionID).filter(TestData.type == 1, pension.ammen.like('%반려동물%'), pension.ammen.like('%대중교통%')).all()
-        type2 = db.session.query(TestData).join(pension, pension.pensionID == TestData.pensionID).filter(TestData.type == 2, pension.ammen.like('%반려동물%')).all()
-        type3 = db.session.query(TestData).join(pension, pension.pensionID == TestData.pensionID).filter(TestData.type == 3, pension.ammen.like('%반려동물%')).all()
-        type4 = db.session.query(TestData).join(pension, pension.pensionID == TestData.pensionID).filter(TestData.type == 4, pension.ammen.like('%반려동물%')).all()
+    # query filtering method 2
+    # fil_con1 = and_(TestData.type == 1, pension.ammen.like('%반려동물%'), pension.ammen.like('%대중교통%'))
+    # type1 = db.session.query(TestData).join(pension, pension.pensionID == TestData.pensionID).filter(fil_con1).all()
 
-    else:
-        type1 = db.session.query(TestData).filter(TestData.type == 1).all()
-        type2 = db.session.query(TestData).filter(TestData.type == 2).all()
-        type3 = db.session.query(TestData).filter(TestData.type == 3).all()
-        type4 = db.session.query(TestData).filter(TestData.type == 4).all()
+    # 필터링된 pensionID 만 리스트로 이를 다시 필터로 만들어서 사용
+    # in_ 는 list랑 결합해서 사용
+    result_pensionID_list = [item.pensionID for item in result_query]
+
+    # type1 = (db.session.query(TestData).join(pension, TestData.pensionID == pension.pensionID)
+    #          .filter(TestData.type == 1).filter(pension.pensionID.in_(result_pensionID_list)).all())
+    
+    for i in range(1, 5):
+        globals()['type'+str(i)] = (db.session.query(TestData).join(pension, TestData.pensionID == pension.pensionID)
+                                      .filter(TestData.type == 1).filter(pension.pensionID.in_(result_pensionID_list)).all())
 
 
-
-
-    test_list = []
+    temp_list = []
     for i in range(len(type1)):
         name = type1[i].pensionID
 
         hospital = type1[i].cnt_3km
-        parm = type2[i].cnt_3km
+        parm = type2[i].cnt_3km # parm은 따로 조사하지 않음 - 약국과 연동
         mart = type3[i].cnt_5km
         bank = type4[i].cnt_15km
 
-        score = hospital + parm + mart + bank
-        test_list.append([name, score, hospital, parm, mart, bank])
+        bbb = 1
 
-    test_df = pd.DataFrame(test_list)
+        score = (hospital * select_value.hospital + parm * select_value.hospital +
+                 mart * select_value.mart + bank * select_value.bank + bbb)
+        temp_list.append([name, score, hospital, parm, mart, bank])
+
+    test_df = pd.DataFrame(temp_list)
     test_df.columns = ['name', 'score', 'hospital', 'parm', 'mart', 'bank']
     test_df.sort_values(by='score', ascending=False, inplace=True)
     score_list = test_df['score'].sort_values(ascending=False)
-    score1, score2, score3 = score_list.head(3).values
+
+    # score1, score2, score3 = score_list.unique().head(3).values - ndarray는 head가 불가능해서
+    if len(score_list.unique()) == 1:
+        score1 = score_list.unique()[0].tolist()
+        pension1, pension1_chk = test_df[test_df['score'] == score1], 1
+        pension2, pension2_chk = 'none', 0
+        pension3, pension3_chk = 'none', 0
+
+    elif len(score_list.unique()) == 2:
+        score1, score2 = score_list.unique()[0:2].tolist()
+        pension1, pension1_chk = test_df[test_df['score'] == score1], 1
+        pension2, pension2_chk = test_df[test_df['score'] == score1], 1
+        pension3 = 'none'
+    else:
+        score1, score2, score3 = score_list.unique()[0:3].tolist()
+        pension1, pension1_chk = test_df[test_df['score'] == score1], 1
+        pension2, pension2_chk = test_df[test_df['score'] == score1], 1
+        pension3, pension3_chk = test_df[test_df['score'] == score1], 1
+
 
     return render_template("select/select3.html",
-                           test = test_df, score1 = score1, score2 = score2, score3 = score3)
+                            result = result_query,
+                           test = test_df,
+                           pension1 = pension1, pension2 = pension2, pension3 = pension3,
+                           pension1_chk =pension1_chk, pension2_chk = pension2_chk, pension3_chk= pension3_chk)
+
 
 
 

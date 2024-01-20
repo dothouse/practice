@@ -29,11 +29,11 @@
                         <li class="list-group-item">
                             <h4>관광선택</h4>
                             <hr>
-                                <table>
-                                    <thead>
+                                <table class="table table-striped">
+                                    <thead class="table-dark">
                                         <tr>
-                                            <td>옵션</td>
-                                            <td>선택값</td>
+                                            <th scope="col">옵션</th>
+                                            <th scope="col">선택값</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -55,7 +55,7 @@
                                         </tr>
                                         <tr>
                                             <td>반려동물</td>
-                                            <td>{{ '선택' if select_value.pet == 1 else '미선택' }}</td>
+                                            <td>{{ select_value.pet_str }}</td>
                                         </tr>
                                      </tbody>
                                 </table>
@@ -67,11 +67,11 @@
                         <li class="list-group-item">
                             <h4>숙소선택</h4>
                             <hr>
-                                <table>
-                                    <thead>
+                                <table class="table table-striped">
+                                    <thead class="table-dark">
                                         <tr>
-                                            <td>옵션</td>
-                                            <td>선택값</td>
+                                            <th scope="col">옵션</th>
+                                            <th scope="col">선택값</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -105,11 +105,11 @@
                         <li class="list-group-item">
                             <h4>숙소주변선택</h4>
                             <hr>
-                                <table>
-                                    <thead>
+                                <table class="table table-striped">
+                                    <thead class="table-dark">
                                         <tr>
-                                            <td>옵션</td>
-                                            <td>선택값</td>
+                                            <th scope="col">옵션</th>
+                                            <th scope="col">선택값</th>
                                         </tr>
                                     </thead>
                                     <tbody>

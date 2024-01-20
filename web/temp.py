@@ -48,3 +48,8 @@ def cal_distance(category):
     temp_distance_list = temp_distance['haver'].sort_values(ascending=True)
     near_temp_distance = temp_distance_list.head(1).values[0]
     globals()['near' + str(category)] = temp_distance[temp_distance['haver'] == near_temp_distance]
+
+    type1 = db.session.query(TestData).join(selected_query, selected_query.pensionID == TestData.pensionID).filter(TestData.type == 1 ).all()
+    type2 = db.session.query(TestData).join(selected_query, selected_query.pensionID == TestData.pensionID).filter(TestData.type == 2).all()
+    type3 = db.session.query(TestData).join(selected_query, selected_query.pensionID == TestData.pensionID).filter(TestData.type == 3).all()
+    type4 = db.session.query(TestData).join(selected_query, selected_query.pensionID == TestData.pensionID).filter(TestData.type == 4).all()
