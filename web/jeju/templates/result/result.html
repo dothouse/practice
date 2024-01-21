@@ -3,36 +3,57 @@
 <html>
 <head>
     <div class=" container p-3 text-bg-dark">
-        <h1>숙소주변 정보</h1>
+        <h1>{{pension_name}} 주변 정보</h1>
     </div>
 </head>
     <body>
     <div class=" container">
-        <div>
-            <h3>펜션이름 : {{pension_name}}</h3><br>
-            <h3>경도 : {{pension_detail[0].longitude}}</h3><br>
-            <h3>위도 : {{pension_detail[0].latitude}}</h3><br>
+        <p>선택한 관광지 타입은 - {{ spot2 }}</p>
+        <div class = '' >
+            <form action='' method="post" class = ''
+                    data-bs-theme="light"  name = 'tour_submit' onsubmit="return chkSum();" >
 
+                    <p> 지도보기 선택 : </p>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input " type="checkbox" id="tour" name="tour" {% if tour_selected %} checked {% endif %}>
+                            <label class="form-check-label " for="tour">관광지</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input " type="checkbox" id="food" name="food">
+                            <label class="form-check-label " for="food">맛집</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input " type="checkbox" id="gift" name="gift" {% if gift_selected %} checked {% endif %}>
+                            <label class="form-check-label " for="gift">기프트샵</label>
+                        </div>
+
+
+                <input type="hidden" name="finalPension" value="{{ pension_name }}">
+                <input type ='submit' class="btn btn-warning" value="선택완료">
+
+            </form>
         </div>
 
-        <div>
-        <ul>
-            <li> 가장 가까운 병원 : {{ near_hospital.name.values[0]}} - {{ near_hospital.addr.values[0]}} / 직선거리 {{ near_hospital.haver.values[0]}}Km</li>
-            <li> 가장 가까운 병원(일요일) : {{ near_hospital_sun.name.values[0]}} - {{ near_hospital_sun.addr.values[0]}} / 직선거리 {{ near_hospital_sun.haver.values[0]}}Km</li>
-            <li> 가장 가까운 약국 : {{ near_parm.name.values[0]}} - {{ near_parm.addr.values[0]}} / 직선거리 {{ near_parm.haver.values[0]}}Km</li>
-            <li> 가장 가까운 마트 : {{ near_mart.name.values[0]}} - {{ near_mart.addr.values[0]}} / 직선거리 {{ near_mart.haver.values[0]}}Km</li>
-            <li> 가장 가까운 경찰서 : {{ near_police.name.values[0]}} - {{ near_police.addr.values[0]}} / 직선거리 {{ near_police.haver.values[0]}}Km</li>
+        <div >
+            <p> 정보 더보기: </p>
 
-
-            <li> <a href = "http://localhost:5000/info/tour">관광/체험</a></li>
-            <li> <a href = "http://localhost:5000/info/office">기념품샵</a></li>
-            <li> <a href = "http://localhost:5000/info/restaurant">식당</a></li>
-        </ul>
-
-
+            <p> 관광지 <span style="background-color: orange; border: 1px solid orange; padding: 2px; fill = orange">orange</span> </p>
+            <form action='/info/tour' method="post" class = '' data-bs-theme="light"  name = 'tour_submit' >
+                <input type="hidden" name="finalPension" value="{{ pension_name }}">
+                <input type ='submit' class="btn btn-warning" name = 'more' value="관광지 더보기" onclick="location.href='/info/tour'" />
+            </form>
+            <p> 기념품 <span style="color: green;">green</span> </p>
+            <form action='/info/tour' method="post" class = '' data-bs-theme="light"  name = 'tour_submit' >
+                <input type="hidden" name="finalPension" value="{{ pension_name }}">
+                <input type ='submit' class="btn btn-warning" name = 'more' value="기념품 더보기" onclick="location.href='/info/tour'" />
+            </form>
         </div>
+
+
+
         <div>
-             <h1>숙소 주변지도</h1>
+
+            <h1>숙소 주변지도</h1>
             {{ iframe|safe }}
 
         </div>
@@ -44,4 +65,10 @@
 
     </body>
 </html>
+<script>
+    </script>
+
+
+
+</script>
 {% endblock %}

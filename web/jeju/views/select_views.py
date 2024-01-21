@@ -14,7 +14,7 @@ from sqlalchemy import func
 
 from jeju import db
 
-from jeju.models import TestData, selectData, Pension
+from jeju.models import TestData, selectData, Pension, Tour
 
 
 bp = Blueprint('select', __name__, url_prefix='/select')

@@ -3,6 +3,16 @@
 <body>
 <h1>마트리스트</h1>
 
+<ul>{% if df_haver.haver[i] < 10 %}
+    <p> {{ df_haver.name[i] }} / {{ df_haver.addr[i] }} / {{ df_haver.haver[i] }} </p>
+    {% endif %}
+
+
+    {% for i in range(df_haver|length) %}
+    {% if df_haver.haver[i] < 10 %}
+    <p> {{ df_haver.name[i] }} / {{ df_haver.addr[i] }} / {{ df_haver.haver[i] }} </p>
+    {% endif %}
+    {% endfor %}
 <ul>
     <li>마트1</li>
     <li>마트2</li>

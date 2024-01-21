@@ -1,9 +1,19 @@
 <!doctype html>
 <html>
 <body>
-<h1>취향을 골라주세요</h1>
+<h1>10km 이하의 {{ info_type }}</h1>
 
-<ul>
+
+
+
+    {% for i in range(df_haver|length) %}
+    {% if df_haver.haver[i] < 10 %}
+    <p> {{ df_haver.name[i] }} / {{ df_haver.addr[i] }} / {{ df_haver.haver[i] }} </p>
+    {% endif %}
+    {% endfor %}
+
+
+
     <li>관광1</li>
     <li>관광2</li>
     <li>관광3</li>

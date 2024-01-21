@@ -7,7 +7,7 @@ import folium
 from haversine import haversine
 
 from jeju import db
-from jeju.models import selectData, Pension, Hospital, Police, Mart, Bank, Gift, Parm
+from jeju.models import selectData, Pension, Hospital, Police, Mart, Bank, Gift, Parm, Tour
 
 bp = Blueprint('result', __name__, url_prefix='/result')
 
@@ -26,40 +26,25 @@ def mapping():
 
     pension_map.get_root().width = "100%"
     pension_map.get_root().height = "800px"
-
     # 숙소 위치
     folium.Marker([pension_lat, pension_lng],
                   tooltip=pension_detail[0].addr,
-                  icon = folium.Icon(icon= 'glyphicon-home')).add_to(pension_map)
+                  icon = folium.Icon(icon= 'glyphicon-home', icon_size=(100, 100))).add_to(pension_map)
     # haversine 목표
     goal = (pension_lat, pension_lng)
 
-
-    # 일요일 병원
-    hospital_detail = db.session.query(Hospital).all()
-    hospital_sun_distance = []
-    for i in range(len(hospital_detail)):
-        if hospital_detail[i].sun == 1:
-            start = (hospital_detail[i].lat, hospital_detail[i].lng)
-            name = hospital_detail[i].name
-            addr = hospital_detail[i].addr
-            sun = hospital_detail[i].sun
-            haver = haversine(start, goal)
-            haver = round(haver, 2)
-            hospital_sun_distance.append([name, haver, addr, sun])
-    hospital_sun_distance = pd.DataFrame(hospital_sun_distance)
-    hospital_sun_distance.columns = ['name', 'haver', 'addr', 'sun']
-    hospital_sun_distance_list = hospital_sun_distance['haver'].sort_values(ascending=True)
-
-    near_hospital_sun_distance = hospital_sun_distance_list.head(1).values[0]
-    near_hospital_sun = hospital_sun_distance[hospital_sun_distance['haver'] == near_hospital_sun_distance]
-
+    select_value = db.session.query(selectData).order_by(selectData.id.desc())[0]
+    Tour_selected_str = select_value.spot2_str
+    Tour_selected = select_value.spot2
 
 
     # 거리 계산하는 함수
-    def category_mapping(category, color, icon):
+    def spot_mapping(category, color, icon, d_type):
         goal = (pension_lat, pension_lng)
-        globals()[str(category)+ '_detail'] = db.session.query(category).all()
+        if d_type != 'none':
+            globals()[str(category)+ '_detail'] = db.session.query(category).filter(category.detailtype.like(f'%{d_type}%')).all()
+        else :
+            globals()[str(category) + '_detail'] = db.session.query(category).all()
         temp_distance = []
         temp_detail = globals()[str(category) + '_detail']
         for i in range(len(temp_detail)):
@@ -86,20 +71,27 @@ def mapping():
 
         return  temp_distance[temp_distance['haver'] == near_temp_distance]
 
-    near_hospital = category_mapping(Hospital, 'yellow', 'glyphicon-map-marker')
-    near_police = category_mapping(Police, 'blue', 'glyphicon-map-marker')
-    near_mart = category_mapping(Mart, 'purple', 'glyphicon-shopping-cart')
-    near_bank = category_mapping(Bank, 'red', 'glyphicon-usd')
-    near_parm = category_mapping(Parm, 'green', 'glyphicon-plus')
+    if 'tour' in request.form:
+        near_tour = spot_mapping(Tour, 'orange', 'glyphicon-map-marker', Tour_selected)
+        tour_selected = 1
+    else:
+        near_tour = 'none'
+        tour_selected = 0
 
+    if 'gift' in request.form:
+        near_gift = spot_mapping(Gift, 'green', 'glyphicon-map-marker', 'none')
+        gift_selected = 1
+    else:
+        near_gift = 'none'
+        gift_selected = 0
 
     iframe = pension_map.get_root()._repr_html_()
 
     return render_template("result/result.html", iframe=iframe,
                            pension_name = pension_name, pension_detail = pension_detail,
-                           near_hospital = near_hospital, near_hospital_sun = near_hospital_sun,
-                           near_police = near_police, near_mart = near_mart, near_bank = near_bank,
-                           near_parm= near_parm)
+                           near_tour = near_tour, tour_selected =tour_selected,
+                           near_gift = near_gift, gift_selected =gift_selected,
+                           spot2 = Tour_selected, spot2_str = Tour_selected_str)
 
 
 @bp.route("/iframe")

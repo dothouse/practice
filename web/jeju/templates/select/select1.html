@@ -4,8 +4,8 @@
         .list-group {
         border: 1px solid #ddd;
         padding: 10px;
-        margin: 10px;
         background-color: #f5f5f5;
+
     }
 </style>
 
@@ -18,12 +18,12 @@
 <body>
     <div class = 'container'>
         <div>
-            <h4>여행타입을 골라주세요</h4>
             <form action='select2' method="post" class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'
                 data-bs-theme="light"  name = 'tour_submit' onsubmit="return chkSum();" >
+            <h4>여행타입을 골라주세요</h4>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 " style="padding-bottom: 0px;  padding-top: 0px;">
                 <div class="col">
-                    <div class="list-group">
+                    <div class="list-group dropdown1 ">
                         <h4>여행타입</h4>
                         <select name="month" id="id_month" class="btn btn-secondary btn-lg">
                             <option value="monthType1">가족 - 아이</option>
@@ -50,7 +50,7 @@
                     <div class="list-group">
                         <h4>선호관광지 세부유형</h4>
                         <select name = 'spot2' id="id_spot2" class="btn btn-secondary btn-lg">
-                            <option>세부유형을 선택하세요</option>
+                            <option value="">세부유형을 선택하세요</option>
                         </select><br>
                     </div>
                     <div class="list-group">
@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="col align-self-start" >
-                    <div style="border: 1px solid #ddd; margin-bottom: 30px;">
+                    <div style="border: 1px solid #ddd; margin-bottom: 5px;">
                         <h4>숙소시설 </h4>
                         <ul class= "list-group" >
                             <li class= "list-group-item"> 수영장 <input type="checkbox" name="pool" value="add_pool"> </li>
@@ -87,7 +87,7 @@
                         </ul>
                     </div>
                     <div  style="border: 1px solid #ddd; margin-bottom: 30px;">
-                        <h4>추가선택</h4>
+                        <h4>추가 고려사항</h4>
                         <ul class= "list-group">
                             <li class= "list-group-item"> 치안(경찰서/지구대) <input type="checkbox" name="police" value="add_police"></li>
                             <li class= "list-group-item"> 병원 <input type="checkbox" name="hospital" value="add_hospital"></li>
@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-             <input type = 'submit' class="btn btn-warning">
+             <input type = 'submit' class="btn btn-warning" value="선택완료" onclick='test()' />
             </form>
         </div>
     </div>
@@ -109,6 +109,7 @@
 
 <!--선호 관광지 세부 옵션-->
 function categoryChange(e) {
+
 	var id_spot2_spot2Type1 = ["유형a_1", "유형a_2"];
 	var id_spot2_spot2Type2 = ["유형b_1", "유형b_2"];
 	var id_spot2_spot2Type3 = ["유형c_1", "유형c_2"];
@@ -131,6 +132,31 @@ function categoryChange(e) {
         target.appendChild(opt);
 	}
 }
+function test() {
+    var selectElement1 = document.getElementById('id_spot1');
+    var selectedValue1 = selectElement1.value;
+
+    var selectElement2 = document.getElementById('id_spot2');
+    var selectedValue2 = selectElement2.value;
+
+    // 선택한 값이 빈 문자열인 경우
+    if (selectedValue1 === "") {
+        var result = confirm('관광지 옵션을 선택하지 않았습니다. 계속 진행하시겠습니까?');
+        if (!result) {
+            location.href = "/select/select1";
+            return;
+        }
+    }
+
+    if (selectedValue2 === "") {
+        var result = confirm('관광지 옵션을 선택하지 않았습니다. 계속 진행하시겠습니까?');
+        if (!result) {
+            location.href = '/select/select1';
+            return;
+        }
+    }
+    }
+
 
 
 </script>

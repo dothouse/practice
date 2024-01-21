@@ -25,7 +25,7 @@
                         <p>숙소이름 -> {{ pension1_score.name.values[0] }}</p>
                         <p>숙소점수 -> {{ pension1_score.score.values[0] }}</p>
                         <p>숙소평점 -> {{ pension1_detail.rating }}</p>
-                        <p>30일 가격 -> {{ pension1_detail.price }}</p>
+                        <p >30일 가격 -> {{ pension1_detail.price | t_comma }}</p>
 
                         <p>주변 병원 갯수 -> {{ pension1_score.hospital.values[0] }}</p>
                         <p>주변 약국 갯수 -> {{ pension1_score.parm.values[0] }}</p>
@@ -59,7 +59,7 @@
                         <p>숙소이름 -> {{ pension2_score.name.values[0] }}</p>
                         <p>숙소점수 -> {{ pension2_score.score.values[0] }}</p>
                         <p>숙소평점 -> {{ pension2_detail.rating }}</p>
-                        <p>30일 가격 -> {{ pension2_detail.price }}</p>
+                        <p>30일 가격 -> {{ pension2_detail.price | t_comma }}</p>
 
                         <p>주변 병원 갯수 -> {{ pension2_score.hospital.values[0] }}</p>
                         <p>주변 약국 갯수 -> {{ pension2_score.parm.values[0] }}</p>
@@ -94,7 +94,7 @@
                         <p>숙소이름 -> {{ pension3_score.name.values[0] }}</p>
                         <p>숙소점수 -> {{ pension3_score.score.values[0] }}</p>
                         <p>숙소평점 -> {{ pension3_detail.rating }}</p>
-                        <p>30일 가격 -> {{ pension3_detail.price }}</p>
+                        <p>30일 가격 -> {{ pension3_detail.price | t_comma }}</p>
 
                         <p>주변 병원 갯수 -> {{ pension3_score.hospital.values[0] }}</p>
                         <p>주변 약국 갯수 -> {{ pension3_score.parm.values[0] }}</p>

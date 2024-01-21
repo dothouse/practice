@@ -110,10 +110,19 @@ class Gift(db.Model):
     addr = db.Column(db.String(200), nullable=False)
     lat = db.Column(db.Float, nullable=False)
     lng = db.Column(db.Float, nullable=False)
+    dong = db.Column(db.String(200), nullable=True)
+    review_rating = db.Column(db.Float, nullable=True)
+    review = db.Column(db.String(200), nullable=True)
+    homepage = db.Column(db.String(200), nullable=True)
+
+class Tour(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    addr = db.Column(db.String(200), nullable=False)
+    lat = db.Column(db.Float, nullable=False)
+    lng = db.Column(db.Float, nullable=False)
     dong = db.Column(db.String(200), nullable=False)
-    review_rating = db.Column(db.Integer, nullable=False)
-    review = db.Column(db.String(200), nullable=False)
-    homepage = db.Column(db.String(200), nullable=False)
+    detailtype = db.Column(db.String(200), nullable=False)
 
 
 

@@ -24,6 +24,9 @@ def create_app():
     #blueprint
     from .views import main_views, select_views, info_views, pension_info_views
     from .views import result_views
+    #filter
+    from .filter import thousand_comma
+    app.jinja_env.filters['t_comma'] = thousand_comma
 
     app.register_blueprint(main_views.bp)
     app.register_blueprint(select_views.bp)

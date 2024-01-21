@@ -53,3 +53,32 @@ def cal_distance(category):
     type2 = db.session.query(TestData).join(selected_query, selected_query.pensionID == TestData.pensionID).filter(TestData.type == 2).all()
     type3 = db.session.query(TestData).join(selected_query, selected_query.pensionID == TestData.pensionID).filter(TestData.type == 3).all()
     type4 = db.session.query(TestData).join(selected_query, selected_query.pensionID == TestData.pensionID).filter(TestData.type == 4).all()
+
+
+
+
+    <div class = 'container'>
+        <p>숙소 이름 {{ pension_name }}</p> <br>
+        <p>지역 -> {{ pension_detail[0].location}}</p>
+        <p>주소 -> {{ pension_detail[0].addr}} </p>
+        <p>가격 -> {{ pension_detail[0].price }}</p>
+        <p>평점 -> {{ pension_detail[0].rating}}</p>
+
+        <p>숙소시설</p>
+        <ul>
+            <li>시설1 - {{ pension_detail[0].ammen1}}</li>
+            <li>시설2 - {{ pension_detail[0].ammen2}}</li>
+            <li>시설3 - {{ pension_detail[0].ammen3}}</li>
+            <li>시설4 - {{ pension_detail[0].ammen4}}</li>
+            <li>시설5 - {{ pension_detail[0].ammen5}}</li>
+        </ul>
+        <p>숙소주변 편의시설</p>
+        <ul>
+            <li> 가장 가까운 병원 : {{ near_hospital.name.values[0]}} - {{ near_hospital.addr.values[0]}} / 직선거리 {{ near_hospital.haver.values[0]}}Km</li>
+            <li> 가장 가까운 병원(일요일) : {{ near_hospital_sun.name.values[0]}} - {{ near_hospital_sun.addr.values[0]}} / 직선거리 {{ near_hospital_sun.haver.values[0]}}Km</li>
+            <li> 가장 가까운 약국 : {{ near_parm.name.values[0]}} - {{ near_parm.addr.values[0]}} / 직선거리 {{ near_parm.haver.values[0]}}Km</li>
+            <li> 가장 가까운 마트 : {{ near_mart.name.values[0]}} - {{ near_mart.addr.values[0]}} / 직선거리 {{ near_mart.haver.values[0]}}Km</li>
+            <li> 가장 가까운 경찰서 : {{ near_police.name.values[0]}} - {{ near_police.addr.values[0]}} / 직선거리 {{ near_police.haver.values[0]}}Km</li>
+        </ul>
+
+    </div>
