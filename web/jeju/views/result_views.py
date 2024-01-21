@@ -27,9 +27,16 @@ def mapping():
     pension_map.get_root().width = "100%"
     pension_map.get_root().height = "800px"
     # 숙소 위치
+    # folium.Marker([pension_lat, pension_lng],
+    #               tooltip=pension_detail[0].addr,
+    #               icon = folium.Icon(icon= 'glyphicon-home', icon_size=(100, 100))).add_to(pension_map)
     folium.Marker([pension_lat, pension_lng],
                   tooltip=pension_detail[0].addr,
-                  icon = folium.Icon(icon= 'glyphicon-home', icon_size=(100, 100))).add_to(pension_map)
+                  icon=folium.DivIcon(html=f"""
+                              <div><svg>
+                                  <circle cx="50" cy="50" r="40" fill="black" opacity="1"/>
+                                  <rect x="35", y="35" width="30" height="30", fill="red", opacity="1" 
+                              </svg></div>""")).add_to(pension_map)
     # haversine 목표
     goal = (pension_lat, pension_lng)
 

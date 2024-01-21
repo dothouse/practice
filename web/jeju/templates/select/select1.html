@@ -132,29 +132,22 @@ function categoryChange(e) {
         target.appendChild(opt);
 	}
 }
-function test() {
-    var selectElement1 = document.getElementById('id_spot1');
-    var selectedValue1 = selectElement1.value;
+    function test() {
+        var selectElement = document.getElementById('id_spot1');
+        var selectedValue = selectElement.value;
 
-    var selectElement2 = document.getElementById('id_spot2');
-    var selectedValue2 = selectElement2.value;
-
-    // 선택한 값이 빈 문자열인 경우
-    if (selectedValue1 === "") {
-        var result = confirm('관광지 옵션을 선택하지 않았습니다. 계속 진행하시겠습니까?');
-        if (!result) {
-            location.href = "/select/select1";
-            return;
+        // 선택한 값이 빈 문자열인 경우
+        if (selectedValue === "") {
+            alert('선호관광유형을 선택하지 않았습니다. 다시 선택해주세요.');
+            return; // 선택한 값이 빈 문자열이면 더 이상의 동작 수행 안 함
         }
-    }
 
-    if (selectedValue2 === "") {
-        var result = confirm('관광지 옵션을 선택하지 않았습니다. 계속 진행하시겠습니까?');
-        if (!result) {
-            location.href = '/select/select1';
-            return;
-        }
-    }
+        // 선택한 값이 빈 문자열이 아닌 경우, 원하는 동작 수행
+        // 예: 양식 제출 등
+        // document.forms[0].submit(); // 예제: 첫 번째 양식 제출
+
+        // 여기에 이전 화면으로 돌아가는 코드를 추가할 수 있습니다.
+        history.back(); // 브라우저의 이전 페이지로 이동
     }
 
 

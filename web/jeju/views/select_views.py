@@ -1,5 +1,5 @@
 import pandas as pd
-from flask import Blueprint, render_template, request, url_for, session, g, flash
+from flask import Blueprint, render_template, request, url_for, session, g, flash, redirect
 
 from sqlalchemy import and_
 
@@ -28,6 +28,12 @@ def open_select1():
 @bp.route('/select2', methods=('GET', 'POST'))
 def show_select2():
     # 카테고리 옵션
+
+    try:
+        request.form['spot2']
+    except :
+        return  redirect('/select1')
+
 
     # 유형1
     if request.form['month'] == 'monthType1':
@@ -62,6 +68,8 @@ def show_select2():
     elif request.form['spot1'] == 'spot1Type5':
         spot1Type_str = '관광유형5'
         spot1Type = 5
+    elif request.form['spot1'] == '':
+        return redirect(url_for('select.open_select1'))
 
     # var
     # id_spot2_spot2Type1 = ["유형a_1", "유형a_2"];
