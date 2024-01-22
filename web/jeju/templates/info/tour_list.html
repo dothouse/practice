@@ -1,22 +1,40 @@
-<!doctype html>
-<html>
+{% extends 'base.html' %}
+{% block content %}
 <body>
-<h1>10km 이하의 {{ info_type }}</h1>
+    <div class="container my-3">
+        <h1>10km 이하의 {{ info_type }}</h1>
 
+        <table class="table">
+            <thead>
+                <tr class="table-dark">
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>주소</th>
+                    <th>거리</th>
 
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(df_haver|length) %}
+                {% if df_haver.haver[i] < 10 %}
 
+                <tr>
+                    <td> {{ i }}</td>
+                    <td>
+                         {{ df_haver.name[i] }}
+                    </td>
 
-    {% for i in range(df_haver|length) %}
-    {% if df_haver.haver[i] < 10 %}
-    <p> {{ df_haver.name[i] }} / {{ df_haver.addr[i] }} / {{ df_haver.haver[i] }} </p>
-    {% endif %}
-    {% endfor %}
-
-
-
-    <li>관광1</li>
-    <li>관광2</li>
-    <li>관광3</li>
-</ul>
+                    <td>
+                         {{ df_haver.addr[i] }}
+                    </td>
+                    <td>
+                         {{ df_haver.haver[i] }} Km
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
-</html>
+{% endblock %}

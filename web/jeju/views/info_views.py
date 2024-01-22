@@ -59,10 +59,10 @@ def open_tour():
 
     if request.form['more'] == '관광지 더보기':
         df_haver = cal_haver(Tour, Tour_selected)
-        info_type = 'Tour'
+        info_type = request.form['more']
     elif request.form['more'] == '기념품 더보기':
         df_haver = cal_haver(Gift, 'none')
-        info_type = 'Gift'
+        info_type = request.form['more']
     else:
         df_haver = 'none'
         info_type = 'none'

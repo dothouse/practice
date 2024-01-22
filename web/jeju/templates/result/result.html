@@ -10,28 +10,7 @@
     <div class=" container">
         <p>선택한 관광지 타입은 - {{ spot2 }}</p>
         <div class = '' >
-            <form action='' method="post" class = ''
-                    data-bs-theme="light"  name = 'tour_submit' onsubmit="return chkSum();" >
 
-                    <p> 지도보기 선택 : </p>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input " type="checkbox" id="tour" name="tour" {% if tour_selected %} checked {% endif %}>
-                            <label class="form-check-label " for="tour">관광지</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input " type="checkbox" id="food" name="food">
-                            <label class="form-check-label " for="food">맛집</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input " type="checkbox" id="gift" name="gift" {% if gift_selected %} checked {% endif %}>
-                            <label class="form-check-label " for="gift">기프트샵</label>
-                        </div>
-
-
-                <input type="hidden" name="finalPension" value="{{ pension_name }}">
-                <input type ='submit' class="btn btn-warning" value="선택완료">
-
-            </form>
         </div>
 
         <div >
@@ -49,11 +28,31 @@
             </form>
         </div>
 
-
-
         <div>
-
             <h1>숙소 주변지도</h1>
+            <div>
+                <form action='' method="post" class = '' data-bs-theme="light"  name = 'tour_submit' >
+                    <div class="form-check form-check-inline">
+                            <p class="form-check form-check-inline"> 지도보기 선택 : </p>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input " type="checkbox" id="tour" name="tour" {% if tour_selected %} checked {% endif %}>
+                        <label class="form-check-label " for="tour">관광지 <span style="background-color: orange; border: 1px solid orange; padding: 2px; fill = orange">orange</span></label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input " type="checkbox" id="food" name="food">
+                        <label class="form-check-label " for="food">맛집</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input " type="checkbox" id="gift" name="gift" {% if gift_selected %} checked {% endif %}>
+                        <label class="form-check-label " for="gift">기프트샵 <span style="background-color: green;  padding: 2px; fill = green">green</span></label>
+                    </div>
+
+                    <input type="hidden" name="finalPension" value="{{ pension_name }}">
+                    <input type ='submit' class="btn btn-warning" value="선택완료">
+
+                </form>
+            </div>
             {{ iframe|safe }}
 
         </div>
