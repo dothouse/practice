@@ -1,7 +1,35 @@
-<!doctype html>
+{% extends 'base.html' %}
+{% block content %}
 <html>
+<head>
+    <div class=" container p-3 text-bg-dark">
+        <h1> 주변 날씨 통계</h1>
+    </div>
+</head>
 <body>
-<h1>날씨 정보 구현예정</h1>
+<div class="container my-3">
+    <p> 기상 관측소 정보 {{ wp_haver_short.name[0] }} ///  {{ wp_haver_short.addr[0] }} ///  {{ wp_haver_short.haver[0] }} Km</p>
+    <p> 미세먼지 관측소 정보 {{ pm_haver_short.name.values[0] }} ///  {{ pm_haver_short.addr.values[0] }} ///  {{ pm_haver_short.haver.values[0] }} Km</p>
+        <table class="table">
+            <thead>
+                <tr class="table-dark">
+                    <th>월별</th>
+                    <th>기온</th>
+                    <th>강수량</th>
+                    <th>미세먼지</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> {{ weather_detail[0].month }}</td>
+                    <td> {{ weather_detail[0].temperature }} </td>
+                    <td> {{ weather_detail[0].rain }} </td>
+                    <td> {{ pm_detail[0] }} </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
 
 </body>
 </html>
+{% endblock %}

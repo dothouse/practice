@@ -135,6 +135,71 @@ class Food(db.Model):
     detailtype_str = db.Column(db.String(200), nullable=False)
     detailtype2_str = db.Column(db.String(200), nullable=False)
 
+class Olleh(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    addr = db.Column(db.String(200), nullable=False)
+    lat = db.Column(db.Float, nullable=False)
+    lng = db.Column(db.Float, nullable=False)
+    course_name= db.Column(db.String(200), nullable=False)
+    distance = db.Column(db.String(200), nullable=False)
+    duration = db.Column(db.String(200), nullable=False)
+    start_point = db.Column(db.String(200), nullable=False)
+    end_pointt = db.Column(db.String(200), nullable=False)
+
+class Weather_point(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    addr = db.Column(db.String(200), nullable=False)
+    lat = db.Column(db.Float, nullable=False)
+    lng = db.Column(db.Float, nullable=False)
+    point = db.Column(db.String(200), nullable=False)
+
+class Weather(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(200), nullable=False)
+    point = db.Column(db.Integer, nullable=False)
+    point_name = db.Column(db.String(200), nullable=False)
+    temperature = db.Column(db.Float, nullable=False)
+    humidity = db.Column(db.Float, nullable=False)
+    rain = db.Column(db.Float, nullable=False)
+    wind = db.Column(db.Float, nullable=False)
+    sun = db.Column(db.Float, nullable=False)
+    snow = db.Column(db.Float, nullable=False)
+    ground = db.Column(db.Float, nullable=False)
+    year = db.Column(db.Integer, nullable=False)
+    month = db.Column(db.Integer, nullable=False)
+
+class Pm_point(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    addr = db.Column(db.String(200), nullable=False)
+    lat = db.Column(db.Float, nullable=False)
+    lng = db.Column(db.Float, nullable=False)
+    location = db.Column(db.String(200), nullable=False)
+
+
+class Pm(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(200), nullable=False)
+    강정동 = db.Column(db.Float, nullable=False)
+    남원읍 = db.Column(db.Float, nullable=False)
+    대정읍 = db.Column(db.Float, nullable=False)
+    동홍동 = db.Column(db.Float, nullable=False)
+    성산읍 = db.Column(db.Float, nullable=False)
+    애월읍 = db.Column(db.Float, nullable=False)
+    연동 = db.Column(db.Float, nullable=False)
+    이도동 = db.Column(db.Float, nullable=False)
+    조천읍 = db.Column(db.Float, nullable=False)
+    한림읍 = db.Column(db.Float, nullable=False)
+    화북동 = db.Column(db.Float, nullable=False)
+    year = db.Column(db.Integer, nullable=False)
+    month = db.Column(db.Integer, nullable=False)
+    day = db.Column(db.Integer, nullable=False)
+
+
+
+
 
 
 

@@ -29,7 +29,7 @@
                         {% else %}
                              <p>숙소평점 -> 미제공</p>
                         {% endif %}
-                        <p >30일 가격 -> {{ pension1_detail.price | t_comma }}</p>
+                        <p >30일 가격 -> {{ pension1_detail.price | t_comma }}원</p>
 
                         <p>주변 병원 갯수 -> {{ pension1_score.hospital.values[0] }}</p>
                         <p>주변 약국 갯수 -> {{ pension1_score.parm.values[0] }}</p>
@@ -71,7 +71,7 @@
                         {% else %}
                              <p>숙소평점 -> 미제공</p>
                         {% endif %}
-                        <p>30일 가격 -> {{ pension2_detail.price | t_comma }}</p>
+                        <p>30일 가격 -> {{ pension2_detail.price | t_comma }}원</p>
 
                         <p>주변 병원 갯수 -> {{ pension2_score.hospital.values[0] }}</p>
                         <p>주변 약국 갯수 -> {{ pension2_score.parm.values[0] }}</p>
@@ -113,7 +113,7 @@
                         {% else %}
                              <p>숙소평점 -> 미제공</p>
                         {% endif %}
-                        <p>30일 가격 -> {{ pension3_detail.price | t_comma }}</p>
+                        <p>30일 가격 -> {{ pension3_detail.price | t_comma }}원</p>
 
                         <p>주변 병원 갯수 -> {{ pension3_score.hospital.values[0] }}</p>
                         <p>주변 약국 갯수 -> {{ pension3_score.parm.values[0] }}</p>
