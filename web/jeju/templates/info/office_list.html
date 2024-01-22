@@ -9,7 +9,7 @@
 
 
     {% for i in range(df_haver|length) %}
-    {% if df_haver.haver[i] < 10 %}
+    {% if df_haver.haver[i] < 20 %}
     <p> {{ df_haver.name[i] }} / {{ df_haver.addr[i] }} / {{ df_haver.haver[i] }} </p>
     {% endif %}
     {% endfor %}

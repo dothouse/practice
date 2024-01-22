@@ -82,3 +82,28 @@ def cal_distance(category):
         </ul>
 
     </div>
+
+for i in range(1, 5):
+    globals()['type' + str(i)] = (db.session.query(TestData).join(Pension, TestData.pensionID == Pension.pensionID)
+                                  .filter(TestData.type == 1).filter(
+        Pension.pensionID.in_(result_pensionID_list)).all())
+
+temp_list = []
+for i in range(len(type1)):
+    name = type1[i].pensionID
+
+    hospital = type1[i].cnt_3km
+    parm = type2[i].cnt_3km  # parm은 따로 조사하지 않음 - 약국과 연동
+    mart = type3[i].cnt_5km
+    bank = type4[i].cnt_15km
+
+    bbb = 1
+
+    score = (hospital * select_value.hospital + parm * select_value.hospital +
+             mart * select_value.mart + bank * select_value.bank + bbb)
+    temp_list.append([name, int(score), int(hospital), int(parm), int(mart), int(bank)])
+
+test_df = pd.DataFrame(temp_list)
+test_df.columns = ['name', 'score', 'hospital', 'parm', 'mart', 'bank']
+test_df.sort_values(by='score', ascending=False, inplace=True)
+score_list = test_df['score'].sort_values(ascending=False)

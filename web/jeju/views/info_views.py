@@ -6,14 +6,14 @@ import pandas as pd
 from haversine import haversine
 
 from jeju import db
-from jeju.models import selectData, Pension, Hospital, Police, Mart, Bank, Gift, Parm, Tour
+from jeju.models import selectData, Pension, Hospital, Police, Mart, Bank, Gift, Parm, Tour, Food
 
 
 bp = Blueprint('info', __name__, url_prefix='/info')
 
 @bp.route('/')
 def tlist():
-    return render_template('info/tour_list.html')
+    return render_template('info/tour_info.html')
 
 @bp.route('/restaurant')
 def open_restaurant():
@@ -34,6 +34,8 @@ def open_tour():
     select_value = db.session.query(selectData).order_by(selectData.id.desc())[0]
     Tour_selected_str = select_value.spot2_str
     Tour_selected = select_value.spot2
+    Food_selected_str = select_value.food_str
+    Food_selected = select_value.food
 
     def cal_haver(category, d_type):
         goal = (pension_lat, pension_lng)
@@ -57,22 +59,43 @@ def open_tour():
 
         return pd.DataFrame(temp_distance)
 
+    def select_near(df):
+        temp_haver = df['haver'].sort_values()
+        temp_haver_short = temp_haver.head(10).to_list()
+        temp = df[df['haver'].isin(temp_haver_short)]
+
+        return pd.DataFrame(temp)
+
+
     if request.form['more'] == '관광지 더보기':
         df_haver = cal_haver(Tour, Tour_selected)
+        df_haver_short = select_near(df_haver)
         info_type = request.form['more']
+        select_type = Tour_selected_str
     elif request.form['more'] == '기념품 더보기':
         df_haver = cal_haver(Gift, 'none')
+        df_haver_short = select_near(df_haver)
         info_type = request.form['more']
+        select_type = ""
+    elif request.form['more'] == '맛집 더보기':
+        df_haver = cal_haver(Food, Food_selected)
+        df_haver_short = select_near(df_haver)
+        info_type = request.form['more']
+        select_type = Food_selected_str
     else:
         df_haver = 'none'
+        df_haver_short = 'none'
         info_type = 'none'
-
-    
-
+        select_type = ''
 
 
-    return render_template('info/tour_list.html',
-                           df_haver  = df_haver, info_type = info_type)
+
+
+
+    return render_template('info/tour_info.html',
+                           df_haver  = df_haver, df_haver_short = df_haver_short,
+                           info_type = info_type,
+                           select_type = select_type)
 
 
 @bp.route('/gift')

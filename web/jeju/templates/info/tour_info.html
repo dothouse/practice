@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    <div class="container my-3">
+        <h1>10km 이하의 {{ info_type }} ( {{ select_type }} )</h1>
+
+        <table class="table">
+            <thead>
+                <tr class="table-dark">
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>주소</th>
+                    <th>거리</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(df_haver|length) %}
+                {% if df_haver_short.name[i]|length > 0 %}
+                    <tr>
+                        <td> {{ i }}</td>
+                        <td>
+                             {{ df_haver_short.name[i] }}
+                        </td>
+
+                        <td>
+                             {{ df_haver_short.addr[i] }}
+                        </td>
+                        <td>
+                             {{ df_haver_short.haver[i] }} Km
+                        </td>
+                    </tr>
+                {% endif %}
+
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</body>
+{% endblock %}

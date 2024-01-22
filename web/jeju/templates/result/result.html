@@ -21,6 +21,11 @@
                 <input type="hidden" name="finalPension" value="{{ pension_name }}">
                 <input type ='submit' class="btn btn-warning" name = 'more' value="관광지 더보기" onclick="location.href='/info/tour'" />
             </form>
+            <p> 맛집 <span style="color: red;">red</span> </p>
+            <form action='/info/tour' method="post" class = '' data-bs-theme="light"  name = 'tour_submit' >
+                <input type="hidden" name="finalPension" value="{{ pension_name }}">
+                <input type ='submit' class="btn btn-warning" name = 'more' value="맛집 더보기" onclick="location.href='/info/tour'" />
+            </form>
             <p> 기념품 <span style="color: green;">green</span> </p>
             <form action='/info/tour' method="post" class = '' data-bs-theme="light"  name = 'tour_submit' >
                 <input type="hidden" name="finalPension" value="{{ pension_name }}">

@@ -31,7 +31,8 @@
                         <p>주변 약국 갯수 -> {{ pension1_score.parm.values[0] }}</p>
                         <p>주변 마트 갯수 -> {{ pension1_score.mart.values[0] }}</p>
                         <p>주변 은행 갯수 -> {{ pension1_score.bank.values[0] }}</p>
-                        <p>주변 경찰 갯수 -> </p>
+                        <p>주변 경찰서 갯수 -> {{ pension1_score.police.values[0] }}</p>
+
                         <form action='pension' method="post" class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
                             <input type="hidden" name="pension_name" value="{{ pension1_score.name.values[0] }}">
                             <input type = 'submit' class="btn btn-secondary" value = '상세정보 보기' >
@@ -65,7 +66,7 @@
                         <p>주변 약국 갯수 -> {{ pension2_score.parm.values[0] }}</p>
                         <p>주변 마트 갯수 -> {{ pension2_score.mart.values[0] }}</p>
                         <p>주변 은행 갯수 -> {{ pension2_score.bank.values[0] }}</p>
-                        <p>주변 경찰 갯수 -> </p>
+                        <p>주변 경찰서 갯수 -> {{ pension2_score.police.values[0] }}</p>
                         <form action='pension' method="post" class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
                             <input type="hidden" name="pension_name" value="{{ pension2_score.name.values[0] }}">
                             <input type = 'submit' class="btn btn-secondary" value = '상세정보 보기' >
@@ -100,7 +101,7 @@
                         <p>주변 약국 갯수 -> {{ pension3_score.parm.values[0] }}</p>
                         <p>주변 마트 갯수 -> {{ pension3_score.mart.values[0] }}</p>
                         <p>주변 은행 갯수 -> {{ pension3_score.bank.values[0] }}</p>
-                        <p>주변 경찰 갯수 -> </p>
+                        <p>주변 경찰서 갯수 -> {{ pension3_score.police.values[0] }}</p>
                         <form action='pension' method="post" class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
                             <input type="hidden" name="pension_name" value="{{ pension3_score.name.values[0] }}">
                             <input type = 'submit' class="btn btn-secondary" value = '상세정보 보기' >

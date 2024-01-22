@@ -7,7 +7,7 @@ import folium
 from haversine import haversine
 
 from jeju import db
-from jeju.models import selectData, Pension, Hospital, Police, Mart, Bank, Gift, Parm, Tour
+from jeju.models import selectData, Pension, Hospital, Police, Mart, Bank, Gift, Parm, Tour, Food
 
 bp = Blueprint('result', __name__, url_prefix='/result')
 
@@ -43,6 +43,9 @@ def mapping():
     select_value = db.session.query(selectData).order_by(selectData.id.desc())[0]
     Tour_selected_str = select_value.spot2_str
     Tour_selected = select_value.spot2
+
+    Food_selected_str = select_value.food_str
+    Food_selected = select_value.food
 
 
     # 거리 계산하는 함수
@@ -92,13 +95,24 @@ def mapping():
         near_gift = 'none'
         gift_selected = 0
 
+    if 'food' in request.form:
+        near_food = spot_mapping(Food, 'red', 'glyphicon-map-marker','none')
+        food_selected = 1
+    else:
+        near_food = 'none'
+        food_selected = 0
+
+
+
     iframe = pension_map.get_root()._repr_html_()
 
     return render_template("result/result.html", iframe=iframe,
                            pension_name = pension_name, pension_detail = pension_detail,
                            near_tour = near_tour, tour_selected =tour_selected,
                            near_gift = near_gift, gift_selected =gift_selected,
-                           spot2 = Tour_selected, spot2_str = Tour_selected_str)
+                           near_food =near_food, food_selected=food_selected,
+                           spot2 = Tour_selected, spot2_str = Tour_selected_str,
+                           food = Tour_selected, food_str = Food_selected_str)
 
 
 @bp.route("/iframe")

@@ -124,6 +124,17 @@ class Tour(db.Model):
     dong = db.Column(db.String(200), nullable=False)
     detailtype = db.Column(db.String(200), nullable=False)
 
+class Food(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    addr = db.Column(db.String(200), nullable=False)
+    lat = db.Column(db.Float, nullable=False)
+    lng = db.Column(db.Float, nullable=False)
+    dong = db.Column(db.String(200), nullable=False)
+    detailtype = db.Column(db.Integer, nullable=False)
+    detailtype_str = db.Column(db.String(200), nullable=False)
+    detailtype2_str = db.Column(db.String(200), nullable=False)
+
 
 
 
