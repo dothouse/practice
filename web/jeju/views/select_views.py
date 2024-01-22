@@ -53,65 +53,50 @@ def show_select2():
         monthType_str = '한달유형5'
         monthType = 5
 
+
     # 관광지
     if request.form['spot1'] == 'spot1Type1':
-        spot1Type_str = '관광유형1'
+        spot1Type_str = '경관, 포토, 스팟'
         spot1Type = 1
     elif request.form['spot1'] == 'spot1Type2':
-        spot1Type_str = '관광유형2'
+        spot1Type_str = '반려동물, 동반, 애견'
         spot1Type = 2
     elif request.form['spot1'] == 'spot1Type3':
-        spot1Type_str = '관광유형3'
+        spot1Type_str = '체험, 레저'
         spot1Type = 3
     elif request.form['spot1'] == 'spot1Type4':
-        spot1Type_str = '관광유형4'
+        spot1Type_str = '도보, 등산, 오름, 숲길'
         spot1Type = 4
     elif request.form['spot1'] == 'spot1Type5':
-        spot1Type_str = '관광유형5'
+        spot1Type_str = '테마, 실내, 박물관, 미술, 유적지, 역사'
         spot1Type = 5
     elif request.form['spot1'] == '':
         return redirect(url_for('select.open_select1'))
 
-    # var
-    # id_spot2_spot2Type1 = ["유형a_1", "유형a_2"];
-    # var
-    # id_spot2_spot2Type2 = ["유형b_1", "유형b_2"];
-    # var
-    # id_spot2_spot2Type3 = ["유형c_1", "유형c_2"];
-    # var
-    # id_spot2_spot2Type4 = ["유형d_1", "유형d_2"];
-    # var
-    # id_spot2_spot2Type5 = ["유형e_1", "유형e_2"];
 
     # 여행지 소분류
-    if request.form['spot2'] == '유형a_1':
+    if request.form['spot2'] == '해변/드라이브':
         spot2Type_str = request.form['spot2']
         spot2Type = 11
-    elif request.form['spot2'] == '유형a_2':
+    elif request.form['spot2'] == '힐링/휴식':
         spot2Type_str = request.form['spot2']
         spot2Type = 12
-    elif request.form['spot2'] == '유형b_1':
+    elif request.form['spot2'] == '반려동물':
         spot2Type_str = request.form['spot2']
         spot2Type = 21
-    elif request.form['spot2'] == '유형b_2':
-        spot2Type_str = request.form['spot2']
-        spot2Type = 22
-    elif request.form['spot2'] == '유형c_1':
+    elif request.form['spot2'] == '레저,수상,해수욕장':
         spot2Type_str = request.form['spot2']
         spot2Type = 31
-    elif request.form['spot2'] == '유형c_2':
+    elif request.form['spot2'] == '승마,이색,마을,어린이':
         spot2Type_str = request.form['spot2']
         spot2Type = 32
-    elif request.form['spot2'] == '유형d_1':
+    elif request.form['spot2'] == '하이킹':
         spot2Type_str = request.form['spot2']
         spot2Type = 41
-    elif request.form['spot2'] == '유형d_2':
-        spot2Type_str = request.form['spot2']
-        spot2Type = 42
-    elif request.form['spot2'] == '유형e_1':
+    elif request.form['spot2'] == '유적,역사':
         spot2Type_str = request.form['spot2']
         spot2Type = 51
-    elif request.form['spot2'] == '유형e_1':
+    elif request.form['spot2'] == '실내,미술,박물관,테마':
         spot2Type_str = request.form['spot2']
         spot2Type = 52
 
@@ -212,7 +197,7 @@ def show_select3():
 
     # 필터링된 pensionID 만 리스트로 이를 다시 필터로 만들어서 사용
     # in_ 는 list랑 결합해서 사용
-    result_pensionID_list = [item.pensionID for item in result_query]
+    # result_pensionID_list = [item.pensionID for item in result_query]
 
     # type1 = (db.session.query(TestData).join(pension, TestData.pensionID == pension.pensionID)
     #          .filter(TestData.type == 1).filter(pension.pensionID.in_(result_pensionID_list)).all())
@@ -290,11 +275,30 @@ def show_select3():
     df_count = pd.DataFrame(count_list)
     df_count.columns = ['pensionID', 'cnt', 'data', 'bound']
 
+    def cal_outlier(df):
+        temp = df['cnt']
+
+        IQR = temp.quantile(0.75) - temp.quantile(0.25)
+        Q3 = temp.quantile(0.75)
+        Q1 = temp.quantile(0.25)
+
+        df_temp = pd.DataFrame(temp[(temp > (Q3 + (1.5 * IQR))) | (temp < (Q1 - (1.5 * IQR)))])
+        df_temp.columns = ['cnt']
+
+        return df_temp['cnt'].to_list()
+
 
     data_list = ['Police', 'Hospital', 'Bank', 'Mart', 'Parm', 'Gift', 'Tour', "Food"]
+    outlist = []
     for name in data_list:
-        globals()['type_'+str(name)] = df_count[df_count['data'] == name]
-
+        temp = df_count[df_count['data'] == name]
+        df_temp = df_count[df_count['cnt'].isin(cal_outlier(temp))]
+        outlist.extend(df_temp['pensionID'].unique())
+    
+    # 이상치가 제거된 새로운 타입별 df 생성
+    for name in data_list:
+        temp = df_count[~df_count['pensionID'].isin(outlist)]
+        globals()['type_' + str(name)] = temp[temp['data'] == name]
 
 
     temp_list = []
