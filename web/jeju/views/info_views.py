@@ -11,13 +11,10 @@ from jeju.models import selectData, Pension, Hospital, Police, Mart, Bank, Gift,
 
 bp = Blueprint('info', __name__, url_prefix='/info')
 
-@bp.route('/')
-def tlist():
-    return render_template('info/tour_info.html')
 
-@bp.route('/restaurant')
-def open_restaurant():
-    return render_template('info/restaurant_list.html')
+@bp.route('/weather', methods=('GET', 'POST'))
+def weather():
+    return render_template('info/weather.html')
 
 
 @bp.route('/tour', methods=('GET', 'POST'))
@@ -88,21 +85,13 @@ def open_tour():
         info_type = 'none'
         select_type = ''
 
-
-
-
-
     return render_template('info/tour_info.html',
                            df_haver  = df_haver, df_haver_short = df_haver_short,
                            info_type = info_type,
                            select_type = select_type)
 
 
-@bp.route('/gift')
-def open_gift():
-    return render_template('info/gift_list.html')
-
-@bp.route('/office' , methods=('GET', 'POST'))
+@bp.route('/olleh' , methods=('GET', 'POST'))
 def open_office():
-    return render_template('info/office_list.html')
+    return render_template('info/olleh.html')
 

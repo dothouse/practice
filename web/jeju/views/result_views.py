@@ -25,7 +25,7 @@ def mapping():
     pension_map = folium.Map(location=[pension_lat, pension_lng], zoom_start=14)
 
     pension_map.get_root().width = "100%"
-    pension_map.get_root().height = "800px"
+    pension_map.get_root().height = "600px"
     # 숙소 위치
     # folium.Marker([pension_lat, pension_lng],
     #               tooltip=pension_detail[0].addr,
