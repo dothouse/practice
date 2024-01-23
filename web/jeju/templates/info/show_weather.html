@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p> {{test}}</p>
+
+    <h2>This is random normal image</h2>
+    <h3>this is h3 </h3>
+    <p>this is the paragraph</p>
+      <img src="data:image/jpeg;base64,{{ img_data }}" alt="Image Placeholder"
+      width=400px, height=200px, onclick="openImageInNewWindow('{{ img_data }}')">
+
+
+</body>
+</html>
+<script>
+    function openImageInNewWindow(imageData) {
+        var newWindow = window.open();
+        newWindow.document.write('<html><body><img src="data:image/jpeg;base64,{{ img_data }}" alt="Image Placeholder" /></body></html>');
+    }
+</script>
+{% endblock %}

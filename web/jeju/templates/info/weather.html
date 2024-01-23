@@ -3,13 +3,53 @@
 <html>
 <head>
     <div class=" container p-3 text-bg-dark">
-        <h1> 주변 날씨 통계</h1>
+        <h1> 주변 날씨 통계</h1> {{ pm_haver_short.name.values[0] }}
     </div>
 </head>
 <body>
 <div class="container my-3">
-    <p> 기상 관측소 정보 {{ wp_haver_short.name.values[0] }} ///  {{ wp_haver_short.addr.values[0] }} ///  {{ wp_haver_short.haver.values[0] }} Km</p>
-    <p> 미세먼지 관측소 정보 {{ pm_haver_short.name.values[0] }} ///  {{ pm_haver_short.addr.values[0] }} ///  {{ pm_haver_short.haver.values[0] }} Km</p>
+    <div>
+        <table class="table">
+            <thead>
+                <tr class="table-dark">
+                    <th>구분</th>
+                    <th>명칭</th>
+                    <th>주소</th>
+                    <th>거리</th>
+                    <th>그래프</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> 기상 - 온도, 강수량</td>
+                    <td> {{ wp_haver_short.name.values[0] }} 관측소</td>
+                    <td> {{ wp_haver_short.addr.values[0] }}</td>
+                    <td> {{ wp_haver_short.haver.values[0] }} Km </td>
+                    <td>
+                        <form action='{{ url_for("info.weather_fig", point = wp_haver_short.name.values[0]) }}' method="post"
+                              class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
+                            <input type= "hidden" name="wp_name" value="{{ wp_haver_short.name.values[0] }}">
+                            <input type = 'submit' class="btn btn-success" value = '보러가기' >
+                      </form>
+                    </td>
+                </tr>
+                 <tr>
+                    <td> 미세먼지</td>
+                    <td> {{ pm_haver_short.name.values[0] }} 관측소</td>
+                    <td> {{ pm_haver_short.addr.values[0] }}</td>
+                    <td> {{ pm_haver_short.haver.values[0] }} Km </td>
+                    <td>
+                        <form action='{{ url_for("info.pm_fig", point = pm_haver_short.name.values[0]) }}' method="post"
+                              class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
+                            <input type= "hidden" name="pm_name" value="{{  pm_haver_short.name.values[0] }}" >
+                            <input type = 'submit' class="btn btn-success" value = '미세먼지정보' >
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
         <table class="table">
             <thead>
                 <tr class="table-dark">
@@ -28,18 +68,21 @@
                 </tr>
             </tbody>
         </table>
-    <div>
-        <form action='{{ url_for("info.fig", point = wp_haver_short.name.values[0]) }}' method="post" class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
-            <input type= "hidden" name="wp_name" value="{{ wp_haver_short.name.values[0] }}">
-            <input type = 'submit' class="btn btn-success" value = '기상정보' >
-        </form>
     </div>
-    <div>
-        <form action='weather/test' method="post" class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
-            <input type= "hidden" name="pm_name" value="{{  pm_haver_short.name.values[0] }}" >
-            <input type = 'submit' class="btn btn-success" value = '미세먼지정보' >
-        </form>
-    </div>
+<!--    <div>-->
+<!--        <form action='{{ url_for("info.weather_fig", point = wp_haver_short.name.values[0]) }}' method="post"-->
+<!--              class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>-->
+<!--            <input type= "hidden" name="wp_name" value="{{ wp_haver_short.name.values[0] }}">-->
+<!--            <input type = 'submit' class="btn btn-success" value = '기상정보' >-->
+<!--        </form>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <form action='{{ url_for("info.pm_fig", point = pm_haver_short.name.values[0]) }}' method="post"-->
+<!--              class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>-->
+<!--            <input type= "hidden" name="pm_name" value="{{  pm_haver_short.name.values[0] }}" >-->
+<!--            <input type = 'submit' class="btn btn-success" value = '미세먼지정보' >-->
+<!--        </form>-->
+<!--    </div>-->
 
 
    >

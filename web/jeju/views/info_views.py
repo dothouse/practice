@@ -239,29 +239,6 @@ def weather():
                            pm_haver = pm_haver, pm_haver_short = pm_haver_short,
                            weather_detail = weather_detail, pm_detail= pm_detail)
 
-@bp.route('/weather/temp', methods=('GET', 'POST'))
-def weather_temp():
-
-    ### https: // m.blog.naver.com / nkj2001 / 222720213350
-    plt.figure(figsize=(10, 5))
-    plt.title("9월 %s 지점 기온 추이" % spot_, fontsize=15)
-    plt.plot(d_["일시"], d_["평균기온(°C)"], "-", color='orange', label=str(spot_))
-    plt.grid()
-    plt.legend(fontsize=13)
-    plt.xticks(rotation=90)
-    img = BytesIO()
-    plt.savefig(img, format='png', dpi=200)
-    img.seek(0)
-    return send_file(img, mimetype='test_img/png')
-
-
-    # plt.figure(figsize=(6, 5))
-    # plt.bar(cities[3:], per, color="red", width=0.6)
-    # plt.xticks(rotation=45)
-    # img = BytesIO()
-    # plt.savefig(img, format='png', dpi=200)
-    # img.seek(0)
-    # return send_file(img, mimetype='image/png')
 
 from io import BytesIO, StringIO
 import base64
@@ -271,8 +248,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 # https://frhyme.github.io/python-lib/flask_matplotlib/
-@bp.route('/info/weather/<point>', methods=('GET', 'POST'))
-def fig(point):
+@bp.route('/weather/<point>', methods=('GET', 'POST'))
+def weather_fig(point):
     if 'wp_name' in request.form:
         point = request.form['wp_name']
         selected_query = db.session.query(Weather).filter(Weather.point_name == point).all()
@@ -284,64 +261,72 @@ def fig(point):
         selected_query = 'none'
 
     selected_query = db.session.query(Weather).filter(Weather.point_name == point).all()
-    test_list = []
+    temp_list = []
     for i in range(len(selected_query )):
         point_name = selected_query[i].point_name
         date = selected_query[i].date
         temperature = selected_query[i].temperature
         rain = selected_query[i].rain
-        test_list.append({'point_name' : point_name,
-                          'date': date,
+        temp_list.append({'point_name' : point_name,
+                          'date': pd.to_datetime(date),
                           'temperature' : temperature,
                           'rain' : rain})
-    test = pd.DataFrame(test_list)
+    df_weather = pd.DataFrame(temp_list)
+    df_weather['date'] = pd.to_datetime(df_weather['date'], format='%Y-%M-%d')
+    df_weather['date'] = df_weather['date'].dt.strftime('%y-%m-%d')
+    df_weather['date'] = pd.to_datetime(df_weather['date'], format='%y-%m-%d')
 
     plt.figure(figsize=(10, 5))
-    plt.title("9월 %s 지점 기온 추이" % point, fontsize=15)
-    plt.plot(test["date"], test["temperature"], "-", color='orange', label=str(point))
+    plt.title(f"{point} 관측소 정보", fontsize=15)
+    plt.plot(df_weather["date"], df_weather["temperature"], "-", color='orange', label=str(point))
     plt.grid()
     plt.legend(fontsize=13)
-    plt.xticks(rotation=90)
+    plt.xticks(rotation=45)
     img = BytesIO()
     plt.savefig(img, format='png', dpi=200)
     img.seek(0)
+    img_str = base64.b64encode(img.read()).decode('utf-8')
 
-    return send_file(img, mimetype='image/png')
+    return render_template("info/show_weather.html", img_data=img_str)
 
-@bp.route('/info/weather/test')
-def normal():
-  return render_template("test.html")
+    # return send_file(img, mimetype='image/png')
 
-
-
-@bp.route('/weather/test', methods=('GET', 'POST'))
-def w1():
-    if 'wp_name' in request.form:
-        point = request.form['wp_name']
-        selected_query = db.session.query(Weather).filter(Weather.point_name == point).all()
-    elif 'pm_name' in request.form:
+@bp.route('/pm/<point>', methods=('GET', 'POST'))
+def pm_fig(point):
+    if 'pm_name' in request.form:
         point = request.form['pm_name']
-        selected_query = db.session.query(Pm).filter(Weather.point_name == point).all()
+        selected_column = getattr(Pm, point)
+        selected_query = db.session.query(Pm.date, selected_column).all()
     else:
         point = 'none'
         selected_query = 'none'
 
 
-    selected_query = db.session.query(Weather).filter(Weather.point_name == point).all()
-    test_list = []
-    for i in range(len(selected_query )):
-        point_name = selected_query[i].point_name
-        date = selected_query[i].date
-        temperature = selected_query[i].temperature
-        rain = selected_query[i].rain
-        test_list.append({'point_name' : point_name,
-                          'date': date,
-                          'temperature' : temperature,
-                          'rain' : rain})
-    test = pd.DataFrame(test_list)
+    pm_list = []
+    for i in range(len(selected_query)):
+        date = selected_query[i][0]
+        date = pd.to_datetime(date)
+        pm = selected_query[i][1]
+        pm_list.append({'date' : date,
+                        'pm' : pm})
+    df_pm = pd.DataFrame(pm_list)
+    df_pm['date'] = pd.to_datetime(df_pm['date'], format='%Y-%M-%d')
+    df_pm['date'] = df_pm['date'].dt.strftime('%y-%m-%d')
+    df_pm['date'] = pd.to_datetime(df_pm['date'], format='%y-%m-%d')
+
+    df_pm2 = df_pm[df_pm['date'] > '2023-01-01']
+    plt.figure(figsize=(10, 5))
+    plt.title(f"{point} 관측소 - 미세먼지", fontsize=15)
+    plt.plot( df_pm2["date"],  df_pm2["pm"], "-", color='orange', label=str(point))
+    plt.grid()
+    plt.legend(fontsize=13)
+    plt.xticks(rotation=45)
+    img = BytesIO()
+    plt.savefig(img, format='png', dpi=200)
+    img.seek(0)
+    img_str = base64.b64encode(img.read()).decode('utf-8')
 
 
+    return render_template("info/show_pm.html", test = df_pm['date'].dtype, img_data=img_str)
 
 
-    return render_template('info/test.html',
-                           test = test)
