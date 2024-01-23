@@ -44,8 +44,15 @@ def open_tour():
     def cal_haver(category, d_type):
         goal = (pension_lat, pension_lng)
         if d_type != 'none':
-            globals()[str(category) + '_detail'] = db.session.query(category).filter(
-                category.detailtype.like(f'%{d_type}%')).all()
+            if ((category == Tour) & ((d_type % 10) == 1)):
+                globals()[str(category) + '_detail'] = db.session.query(category).filter(
+                    category.detailtype.like(f'%{d_type}%') | category.detailtype.like(f'%{d_type+2}%')).all()
+            elif ((category == Tour) & ((d_type % 10) == 2)):
+                globals()[str(category) + '_detail'] = db.session.query(category).filter(
+                    category.detailtype.like(f'%{d_type}%') | category.detailtype.like(f'%{d_type + 1}%')).all()
+            else :
+                globals()[str(category) + '_detail'] = db.session.query(category).filter(
+                    category.detailtype.like(f'%{d_type}%')).all()
         else:
             globals()[str(category) + '_detail'] = db.session.query(category).all()
         temp_distance = []

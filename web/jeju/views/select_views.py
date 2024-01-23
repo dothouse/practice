@@ -77,7 +77,7 @@ def show_select2():
         spot2Type = 12
     elif request.form['spot2'] == '반려동물':
         spot2Type_str = request.form['spot2']
-        spot2Type = 21
+        spot2Type = 20
     elif request.form['spot2'] == '레저,수상,해수욕장':
         spot2Type_str = request.form['spot2']
         spot2Type = 31
@@ -86,7 +86,7 @@ def show_select2():
         spot2Type = 32
     elif request.form['spot2'] == '하이킹':
         spot2Type_str = request.form['spot2']
-        spot2Type = 41
+        spot2Type = 40
     elif request.form['spot2'] == '유적,역사':
         spot2Type_str = request.form['spot2']
         spot2Type = 51
@@ -251,7 +251,12 @@ def show_select3():
     table_list = [('Tour', select_value.spot2), ('Food', select_value.food)]
     for data, selected in table_list:
         temp_data = db.session.query(globals()[str(data)])
-        temp_data2 = temp_data.filter(globals()[str(data)].detailtype == selected).all()
+        if ((data == 'Tour') & ((selected % 10) == 1) ):
+            temp_data2 = temp_data.filter((globals()[str(data)].detailtype == selected) | (globals()[str(data)].detailtype == selected + 2)).all()
+        elif ((data == 'Tour') & ((selected % 10) == 2)) :
+            temp_data2 = temp_data.filter((globals()[str(data)].detailtype == selected) | (globals()[str(data)].detailtype == selected + 2)).all()
+        else :
+            temp_data2 = temp_data.filter(globals()[str(data)].detailtype == selected).all()
         for j in range(len(pension_data)):
             cnt = 0
             pensionID = pension_data[j].pensionID

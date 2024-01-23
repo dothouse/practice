@@ -50,10 +50,19 @@ def mapping():
 
     # 거리 계산하는 함수
     def spot_mapping(category, color, icon, d_type):
+
         goal = (pension_lat, pension_lng)
         if d_type != 'none':
-            globals()[str(category)+ '_detail'] = db.session.query(category).filter(category.detailtype.like(f'%{d_type}%')).all()
-        else :
+            if ((category == Tour) & ((d_type % 10) == 1)):
+                globals()[str(category) + '_detail'] = db.session.query(category).filter(
+                    category.detailtype.like(f'%{d_type}%') | category.detailtype.like(f'%{d_type + 2}%')).all()
+            elif ((category == Tour) & ((d_type % 10) == 2)):
+                globals()[str(category) + '_detail'] = db.session.query(category).filter(
+                    category.detailtype.like(f'%{d_type}%') | category.detailtype.like(f'%{d_type + 1}%')).all()
+            else:
+                globals()[str(category) + '_detail'] = db.session.query(category).filter(
+                    category.detailtype.like(f'%{d_type}%')).all()
+        else:
             globals()[str(category) + '_detail'] = db.session.query(category).all()
         temp_distance = []
         temp_detail = globals()[str(category) + '_detail']
@@ -96,7 +105,7 @@ def mapping():
         gift_selected = 0
 
     if 'food' in request.form:
-        near_food = spot_mapping(Food, 'red', 'glyphicon-map-marker','none')
+        near_food = spot_mapping(Food, 'red', 'glyphicon-map-marker',Food_selected)
         food_selected = 1
     else:
         near_food = 'none'
