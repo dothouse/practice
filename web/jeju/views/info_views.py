@@ -227,7 +227,7 @@ def weather():
     pm_haver = weather_haver(query_pp)
     pm_haver_short = select_near(pm_haver)
 
-    wp_spot = wp_haver_short.name[0]
+    wp_spot = wp_haver_short.name.values[0]
     weather_detail = db.session.query(Weather).filter(Weather.point_name == wp_spot).all()
 
     pp_spot = pm_haver_short.name.values[0]
