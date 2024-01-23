@@ -91,21 +91,21 @@ def mapping():
         return  temp_distance[temp_distance['haver'] == near_temp_distance]
 
     if 'tour' in request.form:
-        near_tour = spot_mapping(Tour, 'orange', 'glyphicon-map-marker', Tour_selected)
+        near_tour = spot_mapping(Tour, 'orange', 'glyphicon-heart', Tour_selected)
         tour_selected = 1
     else:
         near_tour = 'none'
         tour_selected = 0
 
     if 'gift' in request.form:
-        near_gift = spot_mapping(Gift, 'green', 'glyphicon-map-marker', 'none')
+        near_gift = spot_mapping(Gift, 'green', 'glyphicon-gift', 'none')
         gift_selected = 1
     else:
         near_gift = 'none'
         gift_selected = 0
 
     if 'food' in request.form:
-        near_food = spot_mapping(Food, 'red', 'glyphicon-map-marker',Food_selected)
+        near_food = spot_mapping(Food, 'red', 'glyphicon-cutlery',Food_selected)
         food_selected = 1
     else:
         near_food = 'none'

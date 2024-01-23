@@ -15,12 +15,23 @@ th,td{
     </div>
 </head>
     <body>
+    <div class = 'container'>
+        <div>
+            <input type="button" class="btn "
+                                   value="처음으로 가기" onclick="location.href='/select/select1';" style="background-color : #7FFF00; float: left;"/>
+
+            <input type="button" class="btn "
+                                   value="뒤로가기" onclick="history.back();" style="background-color : #caacd7; float: right;"/>
+
+        </div>
+        <h2> 선택사항</h2>
+    </div>
         <div class ='container'>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div class="col ">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <h4>관광선택</h4>
+                            <h4>선호 관광 유형</h4>
                             <hr>
                                 <table class="table table-striped">
                                     <thead class="table-dark">
@@ -58,7 +69,7 @@ th,td{
                 <div class = 'col'>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <h4>숙소선택</h4>
+                            <h4>숙소 시설</h4>
                             <hr>
                                 <table class="table table-striped">
                                     <thead class="table-dark">
@@ -96,7 +107,7 @@ th,td{
                 <div class = 'col'>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <h4>숙소주변선택</h4>
+                            <h4>생활편의시설</h4>
                             <hr>
                                 <table class="table table-striped">
                                     <thead class="table-dark">
@@ -123,7 +134,7 @@ th,td{
                                             <td>{{ '선택' if select_value.mart == 1 else '미선택' }}</td>
                                         </tr>
                                         <tr>
-                                            <td>기념품샾</td>
+                                            <td>기념품샵</td>
                                             <td>{{ '선택' if select_value.gift == 1 else '미선택' }}</td>
                                         </tr>
 
@@ -134,11 +145,9 @@ th,td{
                 </div>
             </div>
 
-            <br>
-
             <div class = 'col-lg-6 col-md-8 mx-auto' style='width: 400px; left_margin : 20px;' >
-                <input type="button" class="btn btn-danger"
-                       value="다시 선택" onclick="history.back();" />
+<!--                <input type="button" class="btn btn-danger"-->
+<!--                       value="다시 선택" onclick="history.back();" />-->
                 <input type="button" class="btn btn-success" style='margin-left: 100px;'
                        value="숙소선택으로" onclick="location.href='/select/select3'" />
             </div>

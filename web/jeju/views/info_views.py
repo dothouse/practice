@@ -217,9 +217,8 @@ def weather():
 
     def select_near(df):
         temp_haver = df['haver'].sort_values()
-        temp_haver_short = temp_haver.head(1).to_list()
-        temp = df[df['haver'].isin(temp_haver_short)]
-
+        # temp_haver_short = temp_haver.head(1).name.values
+        temp = df[df['haver'] == temp_haver[0]]
         return pd.DataFrame(temp)
 
     wp_haver = weather_haver(query_wp)
@@ -235,8 +234,6 @@ def weather():
     pm_detail = db.session.query(Pm.day, Pm.year)
 
 
-
-
     return render_template('info/weather.html',
                            wp_haver = wp_haver, wp_haver_short = wp_haver_short,
                            pm_haver = pm_haver, pm_haver_short = pm_haver_short,
@@ -244,10 +241,6 @@ def weather():
 
 @bp.route('/weather/temp', methods=('GET', 'POST'))
 def weather_temp():
-
-
-
-
 
     ### https: // m.blog.naver.com / nkj2001 / 222720213350
     plt.figure(figsize=(10, 5))
@@ -270,4 +263,52 @@ def weather_temp():
     # img.seek(0)
     # return send_file(img, mimetype='image/png')
 
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
+# https://frhyme.github.io/python-lib/flask_matplotlib/
+@bp.route('/info/weather/<int:mean>_<int:var>', methods=('GET', 'POST'))
+def fig(mean, var):
+
+    spot_
+    plt.figure(figsize=(10, 5))
+    plt.title("9월 %s 지점 기온 추이" % spot_, fontsize=15)
+    plt.plot(d_["일시"], d_["평균기온(°C)"], "-", color='orange', label=str(spot_))
+    plt.grid()
+    plt.legend(fontsize=13)
+    plt.xticks(rotation=90)
+    img = BytesIO()
+    plt.savefig(img, format='png', dpi=200)
+    img.seek(0)
+    return send_file(img, mimetype='test_img/png')
+
+
+
+
+
+
+
+    plt.figure(figsize=(4, 3))
+    ## url에서 입력받은 mean, var를 그대로 사용하여 random sampling
+    xs = np.random.normal(mean, var, 100)
+    ys = np.random.normal(mean, var, 100)
+    plt.scatter(xs, ys, s=100, marker='h', color='red', alpha=0.3)
+    ## file로 저장하는 것이 아니라 binary object에 저장해서 그대로 file을 넘겨준다고 생각하면 됨
+    ## binary object에 값을 저장한다.
+    ## svg로 저장할 수도 있으나, 이 경우 html에서 다른 방식으로 저장해줘야 하기 때문에 일단은 png로 저장해줌
+    img = BytesIO()
+    plt.savefig(img, format='png', dpi=200)
+    ## object를 읽었기 때문에 처음으로 돌아가줌
+    img.seek(0)
+    return send_file(img, mimetype='image/png')
+
+@bp.route('/weather/test', methods=('GET', 'POST'))
+def w1():
+    if request.form['wp_point']:
+        point = request.form['wp_point']
+    else :
+        point = request.form['pm_point']
+
+
+    return render_template('info/test.html')

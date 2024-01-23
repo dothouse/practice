@@ -30,7 +30,14 @@ def choice_pension():
     # 숙소 위치
     folium.Marker([pension_lat, pension_lng],
                   tooltip=pension_detail[0].addr,
-                  icon = folium.Icon(icon= 'glyphicon-home')).add_to(pension_map)
+                  icon = folium.Icon(icon= 'glyphicon-home', color= 'darkblue')).add_to(pension_map)
+    folium.Circle([pension_lat, pension_lng], radius= 200,
+                  color='red',  # Specify the fill color here
+                  fill=True,
+                  fill_color='red',  # You can set this to a different color if needed
+                  fill_opacity=0.7,
+                  ).add_to(pension_map)
+
     # haversine 목표
     goal = (pension_lat, pension_lng)
 
@@ -86,8 +93,9 @@ def choice_pension():
 
         return  temp_distance[temp_distance['haver'] == near_temp_distance]
 
-    near_hospital = category_mapping(Hospital, 'yellow', 'glyphicon-map-marker')
-    near_police = category_mapping(Police, 'blue', 'glyphicon-map-marker')
+    # 'red', 'blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue', 'darkgreen', 'cadetblue', 'darkpurple', 'white', 'pink', 'lightblue', 'lightgreen', 'gray', 'black', 'lightgray'
+    near_hospital = category_mapping(Hospital, 'orange', 'glyphicon-map-marker')
+    near_police = category_mapping(Police, 'blue', 'glyphicon-user')
     near_mart = category_mapping(Mart, 'purple', 'glyphicon-shopping-cart')
     near_bank = category_mapping(Bank, 'red', 'glyphicon-usd')
     near_parm = category_mapping(Parm, 'green', 'glyphicon-plus')

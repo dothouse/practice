@@ -1,4 +1,7 @@
 import pandas as pd
+import numpy as np
+
+
 from flask import Blueprint, render_template, request, url_for, session, g, flash, redirect
 
 from haversine import haversine
@@ -32,19 +35,19 @@ def show_select2():
 
     # 유형1
     if request.form['month'] == 'monthType1':
-        monthType_str = '한달유형1'
+        monthType_str = '일반'
         monthType = 1
     elif request.form['month'] == 'monthType2':
-        monthType_str = '한달유형2'
+        monthType_str = '아이 동반'
         monthType = 2
     elif request.form['month'] == 'monthType3':
-        monthType_str = '한달유형3'
+        monthType_str = '체험'
         monthType = 3
     elif request.form['month'] == 'monthType4':
-        monthType_str = '한달유형4'
+        monthType_str = '맛집'
         monthType = 4
     elif request.form['month'] == 'monthType5':
-        monthType_str = '한달유형5'
+        monthType_str = '자연 탐방'
         monthType = 5
 
 
@@ -78,25 +81,27 @@ def show_select2():
     elif request.form['spot2'] == '반려동물':
         spot2Type_str = request.form['spot2']
         spot2Type = 20
-    elif request.form['spot2'] == '레저,수상,해수욕장':
+    elif request.form['spot2'] == '레저/수상/해수욕장':
         spot2Type_str = request.form['spot2']
         spot2Type = 31
-    elif request.form['spot2'] == '승마,이색,마을,어린이':
+    elif request.form['spot2'] == '승마/이색/마을/어린이':
         spot2Type_str = request.form['spot2']
         spot2Type = 32
     elif request.form['spot2'] == '하이킹':
         spot2Type_str = request.form['spot2']
         spot2Type = 40
-    elif request.form['spot2'] == '유적,역사':
+    elif request.form['spot2'] == '유적/역사':
         spot2Type_str = request.form['spot2']
         spot2Type = 51
-    elif request.form['spot2'] == '실내,미술,박물관,테마':
+    elif request.form['spot2'] == '실내/미술/박물관/테마':
         spot2Type_str = request.form['spot2']
         spot2Type = 52
+    elif request.form['spot2'] == '':
+        return redirect(url_for('select.open_select1'))
 
     # 식당
     if request.form['food'] == 'foodType1':
-        foodType_str = '아시아음식'
+        foodType_str = '아시아음식(일식/중식/아시아)'
         foodType = 1
     elif request.form['food'] == 'foodType2':
         foodType_str = '양식'
@@ -289,22 +294,30 @@ def show_select3():
 
     data_list = ['Police', 'Hospital', 'Bank', 'Mart', 'Parm', 'Gift', 'Tour', "Food"]
     outlist = []
-    for name in data_list:
-        temp = df_count[df_count['data'] == name]
+    for data_name in data_list:
+        temp = df_count[df_count['data'] == data_name]
         df_temp = df_count[df_count['cnt'].isin(cal_outlier(temp))]
         outlist.extend(df_temp['pensionID'].unique())
     
     # 이상치가 제거된 새로운 타입별 df 생성
-    for name in data_list:
+    for data_name in data_list:
         temp = df_count[~df_count['pensionID'].isin(outlist)]
-        globals()['type_' + str(name)] = temp[temp['data'] == name]
+        globals()['type_' + str(data_name)] = temp[temp['data'] == data_name]
+
+    for data_name in data_list:
+        globals()['mean_' + str(data_name)] = np.mean((globals()['type_' + str(data_name)].cnt.values))
+        globals()['std_' + str(data_name)] = np.std((globals()['type_' + str(data_name)].cnt.values))
 
 
     temp_list = []
     for i in range(len(type_Tour)):
         name = type_Tour.iloc[i,:].pensionID
         for data_name in data_list:
-            globals()[str(data_name) + '_score'] = globals()['type_'+str(data_name)].iloc[i,:].cnt
+            # z -score
+            # (x - mean) / std
+            globals()[str(data_name) + '_score'] = round(((globals()['type_'+str(data_name)].iloc[i,:].cnt)
+                                                          - globals()['mean_' + str(data_name)]) / globals()['std_' + str(data_name)], 2)
+            globals()[str(data_name) + '_cnt'] = (globals()['type_'+str(data_name)].iloc[i,:].cnt)
 
         score = (Hospital_score * select_value.hospital +
                  Parm_score * select_value.hospital +
@@ -312,13 +325,16 @@ def show_select3():
                  Bank_score * select_value.bank +
                  Police_score * select_value.police +
                  Gift_score * select_value.gift +
-                 Tour_score + Food_score)
+                 Tour_score +
+                 Food_score)
 
-        temp_list.append([name, int(score), int(Hospital_score), int(Parm_score), int(Police_score), int(Mart_score), int(Bank_score),
-                          int(Gift_score), int(Tour_score), int(Food_score)])
+        temp_list.append([name, score,
+                          Hospital_score, Parm_score, Police_score, Mart_score, Bank_score, Gift_score, Tour_score, Food_score,
+                          Hospital_cnt, Parm_cnt, Police_cnt, Mart_cnt, Bank_cnt, Gift_cnt, Tour_cnt, Food_cnt])
 
     df_score = pd.DataFrame(temp_list)
-    df_score.columns = ['name', 'score', 'hospital', 'parm', 'police', 'mart', 'bank', 'gift', 'tour', 'food']
+    df_score.columns = ['name', 'score', 'hospital', 'parm', 'police', 'mart', 'bank', 'gift', 'tour', 'food',
+                                        'hospital_cnt', 'parm_cnt', 'police_cnt', 'mart_cnt', 'bank_cnt', 'gift_cnt', 'tour_cnt', 'food_cnt']
     df_score.sort_values(by='score', ascending=False, inplace=True)
     score_list = df_score['score'].sort_values(ascending=False)
 
@@ -374,7 +390,7 @@ def show_select3():
                            pension1_score = pension1_score, pension2_score = pension2_score, pension3_score = pension3_score,
                            pension1_chk =pension1_chk, pension2_chk = pension2_chk, pension3_chk= pension3_chk,
                            pension1_detail = pension1_detail, pension2_detail = pension2_detail, pension3_detail = pension3_detail,
-                           non_distance = count_list)
+                           non_distance = count_list, test1 = mean_Tour)
 
 
 

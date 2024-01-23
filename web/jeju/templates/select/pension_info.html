@@ -11,7 +11,18 @@
     </div>
 </head>
 <body>
+
     <div class = 'container'>
+        <div>
+            <input type="button" class="btn "
+                                   value="처음으로 가기" onclick="location.href='/select/select1';" style="background-color : #7FFF00; float: left;"/>
+
+            <input type="button" class="btn "
+                                   value="뒤로가기" onclick="history.back();" style="background-color : #caacd7; float: right;"/>
+
+        </div>
+        <h2> {{ pension_detail[0].pensionID }}</h2>
+
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <!--1번테이블-->
             <div class = 'col'>
@@ -40,8 +51,13 @@
                                         <td>{{ pension_detail[0].price | t_comma }}원</td>
                                     </tr>
                                     <tr>
-                                        <td>평점</td>
-                                        <td>{{ pension_detail[0].rating}}</td>
+                                        {% if pension_detail[0].rating != 0 %}
+                                            <td>리뷰평점</td>
+                                            <td>{{ pension_detail[0].rating}}</td>
+                                        {% else %}
+                                            <td>리뷰평점</td>
+                                            <td>리뷰평점 -> 미제공</td>
+                                        {% endif %}
                                     </tr>
                                  </tbody>
                             </table>
@@ -132,8 +148,7 @@
                     </li>
                 </ul>
 
-            <input type="button" class="btn btn-info"
-                               value="뒤로가기" onclick="history.back();" style="float: right;"/>
+
             </div>
         </div>
         <div>
@@ -142,7 +157,7 @@
             <table style="height: 50px">
                 <tbody>
                 <td>병원</td>
-                <td style="background-color: yellow; border: 1px solid black; padding: 2px;">yellow</td>
+                <td style="background-color: orange; border: 1px solid black; padding: 2px;">orange</td>
                 <td>경찰</td>
                 <td style="background-color: blue; border: 1px solid black; padding: 2px;">blue</td>
                 <td>마트</td>
