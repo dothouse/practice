@@ -9,11 +9,11 @@ from haversine import haversine
 from jeju import db
 from jeju.models import selectData, Pension, Hospital, Police, Mart, Bank, Gift, Parm, Tour, Food
 
-bp = Blueprint('result', __name__, url_prefix='/result')
+bp = Blueprint('result', __name__, url_prefix='/select')
 
 
 # https://python-visualization.github.io/folium/latest/advanced_guide/flask.html
-@bp.route("/", methods=('GET', 'POST'))
+@bp.route("/tour", methods=('GET', 'POST'))
 def mapping():
 
     pension_name = request.form['finalPension']
@@ -27,16 +27,22 @@ def mapping():
     pension_map.get_root().width = "100%"
     pension_map.get_root().height = "600px"
     # 숙소 위치
-    # folium.Marker([pension_lat, pension_lng],
-    #               tooltip=pension_detail[0].addr,
-    #               icon = folium.Icon(icon= 'glyphicon-home', icon_size=(100, 100))).add_to(pension_map)
     folium.Marker([pension_lat, pension_lng],
                   tooltip=pension_detail[0].addr,
-                  icon=folium.DivIcon(html=f"""
-                              <div><svg>
-                                  <circle cx="50" cy="50" r="40" fill="black" opacity="1"/>
-                                  <rect x="35", y="35" width="30" height="30", fill="red", opacity="1" 
-                              </svg></div>""")).add_to(pension_map)
+                  icon=folium.Icon(icon='glyphicon-home', color='darkblue')).add_to(pension_map)
+    folium.Circle([pension_lat, pension_lng], radius=200,
+                  color='red',  # Specify the fill color here
+                  fill=True,
+                  fill_color='red',  # You can set this to a different color if needed
+                  fill_opacity=0.7,
+                  ).add_to(pension_map)
+    # folium.Marker([pension_lat, pension_lng],
+    #               tooltip=pension_detail[0].addr,
+    #               icon=folium.DivIcon(html=f"""
+    #                           <div><svg>
+    #                               <circle cx="50" cy="50" r="40" fill="black" opacity="1"/>
+    #                               <rect x="35", y="35" width="30" height="30", fill="red", opacity="1"
+    #                           </svg></div>""")).add_to(pension_map)
     # haversine 목표
     goal = (pension_lat, pension_lng)
 
@@ -115,7 +121,7 @@ def mapping():
 
     iframe = pension_map.get_root()._repr_html_()
 
-    return render_template("result/result.html", iframe=iframe,
+    return render_template("info/result.html", iframe=iframe,
                            pension_name = pension_name, pension_detail = pension_detail,
                            near_tour = near_tour, tour_selected =tour_selected,
                            near_gift = near_gift, gift_selected =gift_selected,

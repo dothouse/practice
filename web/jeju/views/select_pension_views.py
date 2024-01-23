@@ -103,7 +103,7 @@ def choice_pension():
 
     iframe = pension_map.get_root()._repr_html_()
 
-    return render_template('select/pension_info.html',
+    return render_template('info/pension_info.html',
                             pension_name = pension_name, pension_detail = pension_detail, iframe=iframe,
                            near_hospital=near_hospital, near_hospital_sun=near_hospital_sun,
                            near_police=near_police, near_mart=near_mart, near_bank=near_bank,
