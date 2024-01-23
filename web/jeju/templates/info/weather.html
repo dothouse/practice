@@ -29,7 +29,7 @@
             </tbody>
         </table>
     <div>
-        <form action='weather/test' method="post" class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
+        <form action='{{ url_for("info.fig", point = wp_haver_short.name[0]) }}' method="post" class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
             <input type= "hidden" name="wp_name" value="{{ wp_haver_short.name[0] }}">
             <input type = 'submit' class="btn btn-success" value = '기상정보' >
         </form>

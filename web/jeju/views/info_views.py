@@ -216,9 +216,9 @@ def weather():
         return pd.DataFrame(temp_distance)
 
     def select_near(df):
-        temp_haver = df['haver'].sort_values()
-        # temp_haver_short = temp_haver.head(1).name.values
-        temp = df[df['haver'] == temp_haver[0]]
+        temp_distance_list = df['haver'].sort_values(ascending=True)
+        near_temp_distance = temp_distance_list.head(1).values[0]
+        temp = df[df['haver'] == near_temp_distance]
         return pd.DataFrame(temp)
 
     wp_haver = weather_haver(query_wp)
@@ -263,52 +263,85 @@ def weather_temp():
     # img.seek(0)
     # return send_file(img, mimetype='image/png')
 
+from io import BytesIO, StringIO
+import base64
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 # https://frhyme.github.io/python-lib/flask_matplotlib/
-@bp.route('/info/weather/<int:mean>_<int:var>', methods=('GET', 'POST'))
-def fig(mean, var):
+@bp.route('/info/weather/<point>', methods=('GET', 'POST'))
+def fig(point):
+    if 'wp_name' in request.form:
+        point = request.form['wp_name']
+        selected_query = db.session.query(Weather).filter(Weather.point_name == point).all()
+    elif 'pm_name' in request.form:
+        point = request.form['pm_name']
+        selected_query = db.session.query(Pm).filter(Weather.point_name == point).all()
+    else:
+        point = 'none'
+        selected_query = 'none'
 
-    spot_
+    selected_query = db.session.query(Weather).filter(Weather.point_name == point).all()
+    test_list = []
+    for i in range(len(selected_query )):
+        point_name = selected_query[i].point_name
+        date = selected_query[i].date
+        temperature = selected_query[i].temperature
+        rain = selected_query[i].rain
+        test_list.append({'point_name' : point_name,
+                          'date': date,
+                          'temperature' : temperature,
+                          'rain' : rain})
+    test = pd.DataFrame(test_list)
+
     plt.figure(figsize=(10, 5))
-    plt.title("9월 %s 지점 기온 추이" % spot_, fontsize=15)
-    plt.plot(d_["일시"], d_["평균기온(°C)"], "-", color='orange', label=str(spot_))
+    plt.title("9월 %s 지점 기온 추이" % point, fontsize=15)
+    plt.plot(test["date"], test["temperature"], "-", color='orange', label=str(point))
     plt.grid()
     plt.legend(fontsize=13)
     plt.xticks(rotation=90)
     img = BytesIO()
     plt.savefig(img, format='png', dpi=200)
     img.seek(0)
-    return send_file(img, mimetype='test_img/png')
 
-
-
-
-
-
-
-    plt.figure(figsize=(4, 3))
-    ## url에서 입력받은 mean, var를 그대로 사용하여 random sampling
-    xs = np.random.normal(mean, var, 100)
-    ys = np.random.normal(mean, var, 100)
-    plt.scatter(xs, ys, s=100, marker='h', color='red', alpha=0.3)
-    ## file로 저장하는 것이 아니라 binary object에 저장해서 그대로 file을 넘겨준다고 생각하면 됨
-    ## binary object에 값을 저장한다.
-    ## svg로 저장할 수도 있으나, 이 경우 html에서 다른 방식으로 저장해줘야 하기 때문에 일단은 png로 저장해줌
-    img = BytesIO()
-    plt.savefig(img, format='png', dpi=200)
-    ## object를 읽었기 때문에 처음으로 돌아가줌
-    img.seek(0)
     return send_file(img, mimetype='image/png')
+
+@bp.route('/info/weather/test')
+def normal():
+  return render_template("test.html")
+
+
 
 @bp.route('/weather/test', methods=('GET', 'POST'))
 def w1():
-    if request.form['wp_point']:
-        point = request.form['wp_point']
-    else :
-        point = request.form['pm_point']
+    if 'wp_name' in request.form:
+        point = request.form['wp_name']
+        selected_query = db.session.query(Weather).filter(Weather.point_name == point).all()
+    elif 'pm_name' in request.form:
+        point = request.form['pm_name']
+        selected_query = db.session.query(Pm).filter(Weather.point_name == point).all()
+    else:
+        point = 'none'
+        selected_query = 'none'
 
 
-    return render_template('info/test.html')
+    selected_query = db.session.query(Weather).filter(Weather.point_name == point).all()
+    test_list = []
+    for i in range(len(selected_query )):
+        point_name = selected_query[i].point_name
+        date = selected_query[i].date
+        temperature = selected_query[i].temperature
+        rain = selected_query[i].rain
+        test_list.append({'point_name' : point_name,
+                          'date': date,
+                          'temperature' : temperature,
+                          'rain' : rain})
+    test = pd.DataFrame(test_list)
+
+
+
+
+    return render_template('info/test.html',
+                           test = test)
