@@ -1,27 +1,19 @@
 import pandas as pd
 import numpy as np
 
-
 from flask import Blueprint, render_template, request, url_for, session, g, flash, redirect
 
 from haversine import haversine
 
-from werkzeug.utils import redirect
-
-from sqlalchemy import func
-
 from jeju import db
 
-from jeju.models import TestData, selectData, Pension, Mart, Police, Parm, Hospital, Bank, Tour, Food, Gift
+from jeju.models import selectData, Pension, Mart, Police, Parm, Hospital, Bank, Tour, Food, Gift
 
-
-bp = Blueprint('select', __name__, url_prefix='/select')
-
+bp = Blueprint('select3', __name__, url_prefix='/select')
 
 
 @bp.route('/select3', methods=('GET', 'POST'))
 def show_select3():
-
     select_value = db.session.query(selectData).order_by(selectData.id.desc())[0]
 
     # query filtering
@@ -70,12 +62,12 @@ def show_select3():
             goal = (pension_data[j].latitude, pension_data[j].longitude)
             haver = haversine(start, goal)
             if haver < 5:
-                cnt +=1
+                cnt += 1
         km.append([pension_name, cnt])
 
     # 선택값이 없는 테이블 계산
     non_distance = []
-    non_table_list = ['Police', 'Hospital', 'Bank',  'Mart', 'Parm', 'Gift']
+    non_table_list = ['Police', 'Hospital', 'Bank', 'Mart', 'Parm', 'Gift']
     for data in non_table_list:
         temp_data = db.session.query(globals()[str(data)]).all()
         for j in range(len(pension_data)):
@@ -106,11 +98,13 @@ def show_select3():
     table_list = [('Tour', select_value.spot2), ('Food', select_value.food)]
     for data, selected in table_list:
         temp_data = db.session.query(globals()[str(data)])
-        if ((data == 'Tour') & ((selected % 10) == 1) ):
-            temp_data2 = temp_data.filter((globals()[str(data)].detailtype == selected) | (globals()[str(data)].detailtype == selected + 2)).all()
-        elif ((data == 'Tour') & ((selected % 10) == 2)) :
-            temp_data2 = temp_data.filter((globals()[str(data)].detailtype == selected) | (globals()[str(data)].detailtype == selected + 2)).all()
-        else :
+        if ((data == 'Tour') & ((selected % 10) == 1)):
+            temp_data2 = temp_data.filter(
+                (globals()[str(data)].detailtype == selected) | (globals()[str(data)].detailtype == selected + 2)).all()
+        elif ((data == 'Tour') & ((selected % 10) == 2)):
+            temp_data2 = temp_data.filter(
+                (globals()[str(data)].detailtype == selected) | (globals()[str(data)].detailtype == selected + 2)).all()
+        else:
             temp_data2 = temp_data.filter(globals()[str(data)].detailtype == selected).all()
         for j in range(len(pension_data)):
             cnt = 0
@@ -141,14 +135,13 @@ def show_select3():
 
         return df_temp['cnt'].to_list()
 
-
     data_list = ['Police', 'Hospital', 'Bank', 'Mart', 'Parm', 'Gift', 'Tour', "Food"]
     outlist = []
     for data_name in data_list:
         temp = df_count[df_count['data'] == data_name]
         df_temp = df_count[df_count['cnt'].isin(cal_outlier(temp))]
         outlist.extend(df_temp['pensionID'].unique())
-    
+
     # 이상치가 제거된 새로운 타입별 df 생성
     for data_name in data_list:
         temp = df_count[~df_count['pensionID'].isin(outlist)]
@@ -158,16 +151,16 @@ def show_select3():
         globals()['mean_' + str(data_name)] = np.mean((globals()['type_' + str(data_name)].cnt.values))
         globals()['std_' + str(data_name)] = np.std((globals()['type_' + str(data_name)].cnt.values))
 
-
     temp_list = []
     for i in range(len(type_Tour)):
-        name = type_Tour.iloc[i,:].pensionID
+        name = type_Tour.iloc[i, :].pensionID
         for data_name in data_list:
             # z -score
             # (x - mean) / std
-            globals()[str(data_name) + '_score'] = round(((globals()['type_'+str(data_name)].iloc[i,:].cnt)
-                                                          - globals()['mean_' + str(data_name)]) / globals()['std_' + str(data_name)], 2)
-            globals()[str(data_name) + '_cnt'] = (globals()['type_'+str(data_name)].iloc[i,:].cnt)
+            globals()[str(data_name) + '_score'] = round(((globals()['type_' + str(data_name)].iloc[i, :].cnt)
+                                                          - globals()['mean_' + str(data_name)]) / globals()[
+                                                             'std_' + str(data_name)], 2)
+            globals()[str(data_name) + '_cnt'] = (globals()['type_' + str(data_name)].iloc[i, :].cnt)
 
         score = (Hospital_score * select_value.hospital +
                  Parm_score * select_value.hospital +
@@ -179,12 +172,14 @@ def show_select3():
                  Food_score)
 
         temp_list.append([name, score,
-                          Hospital_score, Parm_score, Police_score, Mart_score, Bank_score, Gift_score, Tour_score, Food_score,
+                          Hospital_score, Parm_score, Police_score, Mart_score, Bank_score, Gift_score, Tour_score,
+                          Food_score,
                           Hospital_cnt, Parm_cnt, Police_cnt, Mart_cnt, Bank_cnt, Gift_cnt, Tour_cnt, Food_cnt])
 
     df_score = pd.DataFrame(temp_list)
     df_score.columns = ['name', 'score', 'hospital', 'parm', 'police', 'mart', 'bank', 'gift', 'tour', 'food',
-                                        'hospital_cnt', 'parm_cnt', 'police_cnt', 'mart_cnt', 'bank_cnt', 'gift_cnt', 'tour_cnt', 'food_cnt']
+                        'hospital_cnt', 'parm_cnt', 'police_cnt', 'mart_cnt', 'bank_cnt', 'gift_cnt', 'tour_cnt',
+                        'food_cnt']
     df_score.sort_values(by='score', ascending=False, inplace=True)
     score_list = df_score['score'].sort_values(ascending=False)
 
@@ -206,7 +201,6 @@ def show_select3():
         pension2_score, pension2_chk = df_score[df_score['score'] == score2], 1
         pension3_score, pension3_chk = df_score[df_score['score'] == score3], 1
 
-
     # for i in range(1, 4):
     #     if globals()['pension' + str(i) + '_chk'] == 1:
     #         globals()['pension' + str(i) + '_name'] = globals()['pension' + str(i) + '.name.values'][0]
@@ -215,36 +209,29 @@ def show_select3():
     #     else :
     #         globals()['pension' + str(i) + '_detail'] = 'none'
 
-
     if pension1_chk == 1:
         pension1_name = pension1_score.name.values[0]
         pension1_detail = db.session.query(Pension).filter(Pension.pensionID == pension1_name).first()
-    else :
+    else:
         pension1_detail = "none"
 
     if pension2_chk == 1:
         pension2_name = pension2_score.name.values[0]
         pension2_detail = db.session.query(Pension).filter(Pension.pensionID == pension2_name).first()
-    else :
+    else:
         pension2_detail = "none"
 
     if pension3_chk == 1:
         pension3_name = pension3_score.name.values[0]
         pension3_detail = db.session.query(Pension).filter(Pension.pensionID == pension3_name).first()
-    else :
+    else:
         pension3_detail = "none"
 
     return render_template("select/select3.html",
-                            result = result_query,
-                           test = df_score,
-                           pension1_score = pension1_score, pension2_score = pension2_score, pension3_score = pension3_score,
-                           pension1_chk =pension1_chk, pension2_chk = pension2_chk, pension3_chk= pension3_chk,
-                           pension1_detail = pension1_detail, pension2_detail = pension2_detail, pension3_detail = pension3_detail,
-                           non_distance = count_list, test1 = mean_Tour)
-
-
-
-
-
-
-
+                           result=result_query,
+                           test=df_score,
+                           pension1_score=pension1_score, pension2_score=pension2_score, pension3_score=pension3_score,
+                           pension1_chk=pension1_chk, pension2_chk=pension2_chk, pension3_chk=pension3_chk,
+                           pension1_detail=pension1_detail, pension2_detail=pension2_detail,
+                           pension3_detail=pension3_detail,
+                           non_distance=count_list, test1=mean_Tour)

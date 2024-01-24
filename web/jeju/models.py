@@ -24,19 +24,6 @@ class selectData(db.Model):
     gift = db.Column(db.INT, nullable=False)
 
 
-class TestData(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    pensionID = db.Column(db.String(200), nullable=False)
-    type = db.Column(db.Float, nullable=False)
-    cnt_1km = db.Column(db.Float, nullable=False)
-    cnt_2km = db.Column(db.Float, nullable=False)
-    cnt_3km = db.Column(db.Float, nullable=False)
-    cnt_5km = db.Column(db.Float, nullable=False)
-    cnt_10km = db.Column(db.Float, nullable=False)
-    cnt_15km = db.Column(db.Float, nullable=False)
-    cnt_20km = db.Column(db.Float, nullable=False)
-
-
 class Pension(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)

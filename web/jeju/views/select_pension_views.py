@@ -1,14 +1,13 @@
 import pandas as pd
 
-from flask import Blueprint, render_template, request, url_for, g, flash
-from werkzeug.utils import redirect
+from flask import Blueprint, render_template, request
 
 import folium
 
 from haversine import haversine
 
 from jeju import db
-from jeju.models import selectData, Pension, Hospital, Police, Mart, Bank, Gift, Parm
+from jeju.models import selectData, Pension, Hospital, Police, Mart, Bank, Parm
 
 
 bp = Blueprint('pension', __name__, url_prefix='/select')
@@ -103,7 +102,7 @@ def choice_pension():
 
     iframe = pension_map.get_root()._repr_html_()
 
-    return render_template('info/pension_info.html',
+    return render_template('select_info/pension_info.html',
                             pension_name = pension_name, pension_detail = pension_detail, iframe=iframe,
                            near_hospital=near_hospital, near_hospital_sun=near_hospital_sun,
                            near_police=near_police, near_mart=near_mart, near_bank=near_bank,

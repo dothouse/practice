@@ -1,13 +1,12 @@
 import pandas as pd
-from flask import Blueprint, render_template, request, url_for, g, flash,  render_template_string
-from werkzeug.utils import redirect
+from flask import Blueprint, render_template, request
 
 import folium
 
 from haversine import haversine
 
 from jeju import db
-from jeju.models import selectData, Pension, Hospital, Police, Mart, Bank, Gift, Parm, Tour, Food
+from jeju.models import selectData, Pension, Tour, Food, Gift
 
 bp = Blueprint('result', __name__, url_prefix='/select')
 
@@ -121,70 +120,10 @@ def mapping():
 
     iframe = pension_map.get_root()._repr_html_()
 
-    return render_template("info/result.html", iframe=iframe,
+    return render_template("select_info/tour_info.html", iframe=iframe,
                            pension_name = pension_name, pension_detail = pension_detail,
                            near_tour = near_tour, tour_selected =tour_selected,
                            near_gift = near_gift, gift_selected =gift_selected,
                            near_food =near_food, food_selected=food_selected,
                            spot2 = Tour_selected, spot2_str = Tour_selected_str,
                            food = Tour_selected, food_str = Food_selected_str)
-
-
-@bp.route("/iframe")
-def iframe():
-    """Embed a map as an iframe on a page."""
-    m = folium.Map()
-
-    # set the iframe width and height
-    m.get_root().width = "800px"
-    m.get_root().height = "600px"
-    iframe = m.get_root()._repr_html_()
-
-    return render_template_string(
-        """
-            <!DOCTYPE html>
-            <html>
-                <head></head>
-                <body>
-                    <h1>Using an iframe</h1>
-                    {{ iframe|safe }}
-                </body>
-            </html>
-        """,
-        iframe=iframe,
-    )
-
-
-@bp.route("/components")
-def components():
-    """Extract map components and put those on a page."""
-    m = folium.Map(
-        width=800,
-        height=600,
-    )
-
-    m.get_root().render()
-    header = m.get_root().header.render()
-    body_html = m.get_root().html.render()
-    script = m.get_root().script.render()
-
-    return render_template_string(
-        """
-            <!DOCTYPE html>
-            <html>
-                <head>
-                    {{ header|safe }}
-                </head>
-                <body>
-                    <h1>Using components</h1>
-                    {{ body_html|safe }}
-                    <script>
-                        {{ script|safe }}
-                    </script>
-                </body>
-            </html>
-        """,
-        header=header,
-        body_html=body_html,
-        script=script,
-    )

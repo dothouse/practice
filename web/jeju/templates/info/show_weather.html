@@ -1,20 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
 <body>
-    <p> {{test}}</p>
+<div class="container my-3">
+    <h1> 기온 그래프</h1>
+    <div>
 
-    <h2>This is random normal image</h2>
-    <h3>this is h3 </h3>
-    <p>this is the paragraph</p>
-      <img src="data:image/jpeg;base64,{{ img_data }}" alt="Image Placeholder"
-      width=400px, height=200px, onclick="openImageInNewWindow('{{ img_data }}')">
+        <img src="data:image/jpeg;base64,{{ img_data }}" alt="Image Placeholder"
+             width=800px, height=600px, onclick="openImageInNewWindow('{{ img_data }}')">
 
-
+    </div>
+</div>
 </body>
 </html>
 <script>

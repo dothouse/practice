@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, g, session
+from flask import Blueprint, url_for
 from werkzeug.utils import redirect
 
 bp = Blueprint('main', __name__, url_prefix='/')
@@ -10,6 +10,6 @@ bp = Blueprint('main', __name__, url_prefix='/')
 
 @bp.route('/')
 def select1():
-    return redirect(url_for('select.open_select1'))
+    return redirect(url_for('select1.open_select1'))
 
 
