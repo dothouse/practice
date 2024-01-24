@@ -36,7 +36,7 @@
                 <td> {{ wp_haver_short.addr.values[0] }}</td>
 <!--                <td> {{ wp_haver_short.haver.values[0] }} Km</td>-->
                 <td>
-                    <form action='{{ url_for("info.weather_fig", point = wp_haver_short.name.values[0]) }}'
+                    <form action='{{ url_for("weather.weather_fig", point = wp_haver_short.name.values[0]) }}'
                           method="post"
                           class='dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
                         <input type="hidden" name="wp_name" value="{{ wp_haver_short.name.values[0] }}">
@@ -50,7 +50,7 @@
                 <td> {{ pm_haver_short.addr.values[0] }}</td>
 <!--                <td> {{ pm_haver_short.haver.values[0] }} Km</td>-->
                 <td>
-                    <form action='{{ url_for("info.pm_fig", point = pm_haver_short.name.values[0]) }}' method="post"
+                    <form action='{{ url_for("weather.pm_fig", point = pm_haver_short.name.values[0]) }}' method="post"
                           class='dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
                         <input type="hidden" name="pm_name" value="{{  pm_haver_short.name.values[0] }}">
                         <input type='submit' class="btn btn-success" value='미세먼지 보러가기'>

@@ -22,23 +22,21 @@
         <table class="table">
             <thead>
             <tr class="table-dark">
-
                 <th>제목</th>
                 <th>주소</th>
                 <th>거리</th>
-
             </tr>
             </thead>
             <tbody>
             {% for i in range(df_haver|length) %}
-            {% if df_haver_short.name[i]|length > 0 %}
-            {% if df_haver_short.haver[i] < 10 %}
+                <!-- df_haver_short.name이 존재하는 경우  -->
+                {% if df_haver_short.name[i]|length > 0 %}
+                    <!-- 거리가 10미만인 경우   -->
+                    {% if df_haver_short.haver[i] < 10 %}
             <tr>
-
                 <td>
                     {{ df_haver_short.name[i] }}
                 </td>
-
                 <td>
                     {{ df_haver_short.addr[i] }}
                 </td>
@@ -46,8 +44,8 @@
                     {{ df_haver_short.haver[i] }} Km
                 </td>
             </tr>
-            {% endif %}
-            {% endif %}
+                    {% endif %}
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>

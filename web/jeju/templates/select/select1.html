@@ -24,6 +24,8 @@
             <h4>여행타입을 골라주세요</h4>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 " style="padding-bottom: 0px;  padding-top: 0px;">
                 <div class="col">
+                    <!--  dropdown menu 선택시 name="month" 의 <option value="monthType1"> 이 전송됨-->
+                    <!--  month = monthType1 -->
                     <div class="list-group dropdown1 ">
                         <h4>여행타입</h4>
                         <select name="month" id="id_month" class="btn btn-secondary btn-lg">
@@ -34,7 +36,9 @@
                             <option value="monthType5">자연 탐방</option>
                         </select><br>
                     </div>
-                    <!-- 선택지-->
+                    <!-- 선택지에 따른 선택지 변화-->
+
+                    <!-- 기본 선택지 -->
                     <!-- https://imivory.tistory.com/entry/javascript-selectbox-%EC%84%A0%ED%83%9D%EC%97%90-%EB%94%B0%EB%9D%BC-%EB%91%90%EB%B2%88%EC%A7%B8-selectbox-%EA%B0%92-%EB%B3%80%ED%99%94-->
                     <div class="list-group">
                         <h4>선호관광지 유형</h4>
@@ -49,6 +53,7 @@
                         </select><br>
                     </div>
                     <!--변화하는 선택지-->
+                    <!--java script랑 연동-->
                     <div class="list-group">
                         <h4>선호관광지 세부유형</h4>
                         <select name='spot2' id="id_spot2" class="btn btn-secondary btn-lg">
@@ -75,6 +80,7 @@
                     </div>
                 </div>
 
+                <!-- checkbox 선택시 name="police" 이 전송  -->
                 <div class="col align-self-start">
                     <div style="border: 1px solid #ddd; margin-bottom: 5px;">
                         <h4>숙소시설 </h4>
@@ -112,7 +118,7 @@
 
 <script>
 
-    <!--선호 관광지 세부 옵션-->
+    <!--선호 관광지 세부 옵션을 변동하는 -->
     function categoryChange(e) {
 
         var id_spot2_spot2Type1 = ["해변/드라이브", "힐링/휴식"];
@@ -137,6 +143,8 @@
             target.appendChild(opt);
         }
     }
+        <!-- alert /// history.back이 되지 않아서  -->
+        <!-- select2_views에 가서 spot1 == '' 또는 request.form['spot'] 값의 여부에 따라 전 페이지 redirect (if, try 사용가능)  -->
         function test() {
             var selectElement = document.getElementById('id_spot1');
             var selectedValue = selectElement.value;

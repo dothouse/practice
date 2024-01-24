@@ -26,7 +26,7 @@ def choice_pension():
     pension_map.get_root().width = "100%"
     pension_map.get_root().height = "800px"
 
-    # 숙소 위치
+    # 숙소 위치 mapping
     folium.Marker([pension_lat, pension_lng],
                   tooltip=pension_detail[0].addr,
                   icon = folium.Icon(icon= 'glyphicon-home', color= 'darkblue')).add_to(pension_map)
@@ -37,9 +37,8 @@ def choice_pension():
                   fill_opacity=0.7,
                   ).add_to(pension_map)
 
-    # haversine 목표
+    # haversine 거리계산의 중심
     goal = (pension_lat, pension_lng)
-
 
     # 일요일 병원
     hospital_detail = db.session.query(Hospital).all()
@@ -62,7 +61,7 @@ def choice_pension():
 
 
 
-    # 거리 계산하는 함수
+    # 거리 계산하는 함수1
     def category_mapping(category, color, icon):
         goal = (pension_lat, pension_lng)
         globals()[str(category)+ '_detail'] = db.session.query(category).all()
@@ -92,14 +91,15 @@ def choice_pension():
 
         return  temp_distance[temp_distance['haver'] == near_temp_distance]
 
-    # 'red', 'blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue', 'darkgreen', 'cadetblue', 'darkpurple', 'white', 'pink', 'lightblue', 'lightgreen', 'gray', 'black', 'lightgray'
+    #  마커 - 가능한 색상 'red', 'blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue',
+    #  'darkgreen', 'cadetblue', 'darkpurple', 'white', 'pink', 'lightblue', 'lightgreen', 'gray', 'black', 'lightgray'
     near_hospital = category_mapping(Hospital, 'orange', 'glyphicon-map-marker')
     near_police = category_mapping(Police, 'blue', 'glyphicon-user')
     near_mart = category_mapping(Mart, 'purple', 'glyphicon-shopping-cart')
     near_bank = category_mapping(Bank, 'red', 'glyphicon-usd')
     near_parm = category_mapping(Parm, 'green', 'glyphicon-plus')
 
-
+    # iframe에 pension_map 할당
     iframe = pension_map.get_root()._repr_html_()
 
     return render_template('select_info/pension_info.html',

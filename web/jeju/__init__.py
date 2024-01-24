@@ -23,7 +23,7 @@ def create_app():
 
     # blueprint
     from .views import main_views, select1_views, select2_views, select3_views
-    from .views import select_tour_views, select_pension_views, info_views
+    from .views import select_tour_views, select_pension_views, info_views, weather_views
     # filter
     from .filter import thousand_comma
     app.jinja_env.filters['t_comma'] = thousand_comma
@@ -37,5 +37,6 @@ def create_app():
     app.register_blueprint(select_tour_views.bp)
     app.register_blueprint(select_pension_views.bp)
     app.register_blueprint(info_views.bp)
+    app.register_blueprint(weather_views.bp)
 
     return app

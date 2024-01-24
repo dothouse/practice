@@ -37,6 +37,8 @@
                     {% else %}
                     <p>리뷰평점 -> 미제공</p>
                     {% endif %}
+
+                    <!-- filter.py에 쓴 함수 중 t_comma를 활용 -->
                     <p>30일 가격 -> {{ pension1_detail.price | t_comma }}원</p>
                     <hr>
 
@@ -44,6 +46,7 @@
                     <p>주변 맛집 갯수 -> {{ pension1_score.food_cnt.values[0] }}개</p>
                     <hr>
 
+                    <!-- 해당 값이 있을때만 표기   -->
                     {% if select_value.hospital == 1 %}
                     <p>주변 병원 갯수 -> {{ pension1_score.hospital_cnt.values[0] }}개</p>
                     {% endif %}
@@ -77,6 +80,7 @@
                 </li>
             </ul>
         </div>
+        <!-- pension1_chk가 없는 경우 표기  -->
         {% else %}
         <div class="col">
             <ul class="list-group">

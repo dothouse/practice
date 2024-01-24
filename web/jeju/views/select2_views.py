@@ -1,24 +1,26 @@
-from flask import Blueprint, render_template, request, url_for, session, g, flash, redirect
+from flask import Blueprint, render_template, request, url_for, redirect
 
 from werkzeug.utils import redirect
 
 from jeju import db
 
-from jeju.models import selectData, Pension, Mart, Police, Parm, Hospital, Bank, Tour, Food, Gift
+from jeju.models import selectData
 
 bp = Blueprint('select2', __name__, url_prefix='/select')
 
 
 @bp.route('/select2', methods=('GET', 'POST'))
 def show_select2():
-    # 카테고리 옵션
+    # selectd query에 데이터 삽입
 
+    # alert의 history.back()이 안되는 경우 회피하는 1번째 방법
     try:
         request.form['spot2']
     except:
         return redirect('/select1')
 
-    # 유형1
+    # 카테고리 옵션에 따라
+    # 한달살기 유형
     if request.form['month'] == 'monthType1':
         monthType_str = '일반'
         monthType = 1
@@ -35,7 +37,7 @@ def show_select2():
         monthType_str = '자연 탐방'
         monthType = 5
 
-    # 관광지
+    # 관광지 대분류
     if request.form['spot1'] == 'spot1Type1':
         spot1Type_str = '경관, 포토, 스팟'
         spot1Type = 1
@@ -51,10 +53,11 @@ def show_select2():
     elif request.form['spot1'] == 'spot1Type5':
         spot1Type_str = '테마, 실내, 박물관, 미술, 유적지, 역사'
         spot1Type = 5
+    # alert의 history.back()이 안되는 경우 회피하는 2번째 방법
     elif request.form['spot1'] == '':
         return redirect(url_for('select1.open_select1'))
 
-    # 여행지 소분류
+    # 관광지 소분류
     if request.form['spot2'] == '해변/드라이브':
         spot2Type_str = request.form['spot2']
         spot2Type = 11
@@ -82,7 +85,7 @@ def show_select2():
     elif request.form['spot2'] == '':
         return redirect(url_for('select1.open_select1'))
 
-    # 식당
+    # 맛집
     if request.form['food'] == 'foodType1':
         foodType_str = '아시아음식(일식/중식/아시아)'
         foodType = 1
@@ -101,7 +104,8 @@ def show_select2():
     elif request.form['food'] == 'foodType6':
         foodType_str = '한식'
         foodType = 6
-
+        
+    # 반려동물
     if request.form['pet'] == 'petType1':
         petType_str = '미동반'
         petType = 0
@@ -139,9 +143,13 @@ def show_select2():
                           pet=petType, pet_str=petType_str,
                           pool=pool, garden=garden, sea=sea, nocost=nocost, bus=bus,
                           police=police, hospital=hospital, bank=bank, mart=mart, gift=gift)
+    
+    # 쿼리에 데이터 삽입하는 방식
     db.session.add(new_data)
     db.session.commit()
 
+    # id.desc -> 내림차순 정리
+    # 가장 나중에 입력된 값이 선택되도록 하는 방법
     select_value = db.session.query(selectData).order_by(selectData.id.desc())[0]
 
     return render_template("select/select2.html",
