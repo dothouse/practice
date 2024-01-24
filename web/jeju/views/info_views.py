@@ -277,9 +277,10 @@ def weather_fig(point):
     df_weather['date'] = df_weather['date'].dt.strftime('%y-%m-%d')
     df_weather['date'] = pd.to_datetime(df_weather['date'], format='%y-%m-%d')
 
+    df_graph = df_weather[df_weather['date'] > '2022-12-31']
     plt.figure(figsize=(10, 5))
     plt.title(f"{point} 관측소 정보", fontsize=15)
-    plt.plot(df_weather["date"], df_weather["temperature"], "-", color='orange', label=str(point))
+    plt.plot(df_graph["date"], df_graph["temperature"], "-", color='orange', label=str(point))
     plt.grid()
     plt.legend(fontsize=13)
     plt.xticks(rotation=45)
@@ -315,7 +316,7 @@ def pm_fig(point):
     df_pm['date'] = df_pm['date'].dt.strftime('%y-%m-%d')
     df_pm['date'] = pd.to_datetime(df_pm['date'], format='%y-%m-%d')
 
-    df_pm2 = df_pm[df_pm['date'] > '2023-01-01']
+    df_pm2 = df_pm[(df_pm['date'] > '2023-01-01') & (df_pm['date'] < '2024-01-01')]
     plt.figure(figsize=(10, 5))
     plt.title(f"{point} 관측소 - 미세먼지", fontsize=15)
     plt.plot(df_pm2["date"], df_pm2["pm"], "-", color='orange', label=str(point))

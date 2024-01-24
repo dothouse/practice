@@ -33,9 +33,9 @@
                     <h4>{{ pension1_score.name.values[0] }}</h4>
                     <hr>
                     {% if pension1_detail.rating != 0 %}
-                    <p>숙소평점 -> {{ pension1_detail.rating }}</p>
+                    <p>리뷰평점 -> {{ pension1_detail.rating }}</p>
                     {% else %}
-                    <p>숙소평점 -> 미제공</p>
+                    <p>리뷰평점 -> 미제공</p>
                     {% endif %}
                     <p>30일 가격 -> {{ pension1_detail.price | t_comma }}원</p>
                     <hr>

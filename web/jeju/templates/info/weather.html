@@ -25,7 +25,7 @@
                 <th>구분</th>
                 <th>명칭</th>
                 <th>주소</th>
-                <th>거리</th>
+<!--                <th>거리</th>-->
                 <th>그래프</th>
             </tr>
             </thead>
@@ -34,7 +34,7 @@
                 <td> 기상 - 온도, 강수량</td>
                 <td> {{ wp_haver_short.name.values[0] }} 관측소</td>
                 <td> {{ wp_haver_short.addr.values[0] }}</td>
-                <td> {{ wp_haver_short.haver.values[0] }} Km</td>
+<!--                <td> {{ wp_haver_short.haver.values[0] }} Km</td>-->
                 <td>
                     <form action='{{ url_for("info.weather_fig", point = wp_haver_short.name.values[0]) }}'
                           method="post"
@@ -48,7 +48,7 @@
                 <td> 미세먼지</td>
                 <td> {{ pm_haver_short.name.values[0] }} 관측소</td>
                 <td> {{ pm_haver_short.addr.values[0] }}</td>
-                <td> {{ pm_haver_short.haver.values[0] }} Km</td>
+<!--                <td> {{ pm_haver_short.haver.values[0] }} Km</td>-->
                 <td>
                     <form action='{{ url_for("info.pm_fig", point = pm_haver_short.name.values[0]) }}' method="post"
                           class='dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
@@ -60,43 +60,26 @@
             </tbody>
         </table>
     </div>
-    <div>
-        <table class="table">
-            <thead>
-            <tr class="table-dark">
-                <th>월별</th>
-                <th>기온</th>
-                <th>강수량</th>
-                <th>미세먼지</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td> {{ weather_detail[0].month }}</td>
-                <td> {{ weather_detail[0].temperature }}</td>
-                <td> {{ weather_detail[0].rain }}</td>
-                <td> {{ pm_detail[0] }}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <!--    <div>-->
-    <!--        <form action='{{ url_for("info.weather_fig", point = wp_haver_short.name.values[0]) }}' method="post"-->
-    <!--              class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>-->
-    <!--            <input type= "hidden" name="wp_name" value="{{ wp_haver_short.name.values[0] }}">-->
-    <!--            <input type = 'submit' class="btn btn-success" value = '기상정보' >-->
-    <!--        </form>-->
-    <!--    </div>-->
-    <!--    <div>-->
-    <!--        <form action='{{ url_for("info.pm_fig", point = pm_haver_short.name.values[0]) }}' method="post"-->
-    <!--              class = 'dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>-->
-    <!--            <input type= "hidden" name="pm_name" value="{{  pm_haver_short.name.values[0] }}" >-->
-    <!--            <input type = 'submit' class="btn btn-success" value = '미세먼지정보' >-->
-    <!--        </form>-->
-    <!--    </div>-->
-
-
-    >
+<!--    <div>-->
+<!--        <table class="table">-->
+<!--            <thead>-->
+<!--            <tr class="table-dark">-->
+<!--                <th>월별</th>-->
+<!--                <th>기온</th>-->
+<!--                <th>강수량</th>-->
+<!--                <th>미세먼지</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr>-->
+<!--                <td> {{ weather_detail[0].month }}</td>-->
+<!--                <td> {{ weather_detail[0].temperature }}</td>-->
+<!--                <td> {{ weather_detail[0].rain }}</td>-->
+<!--                <td> {{ pm_detail[0] }}</td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
 </div>
 
 </body>
