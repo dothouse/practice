@@ -6,51 +6,60 @@
         <h1>{{pension_name}} 주변 올레길 정보</h1>
     </div>
 </head>
-    <body>
-    <div class="container my-3">
+<body>
+<div class="container my-3">
+    <div>
+        <h1>주변 올레길 정보</h1>
+        <input type="button" class="btn "
+               value="처음으로 가기" onclick="location.href='/select/select1';"
+               style="background-color : #7FFF00; float: left;"/>
 
-        <table class="table">
-            <thead>
-                <tr class="table-dark">
-
-                    <th>제목</th>
-                    <th>주소</th>
-                    <th>거리</th>
-
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in range(df_haver|length) %}
-                {% if df_haver_short.name[i]|length > 0 %}
-                    {% if df_haver_short.haver[i] < 10 %}
-                        <tr>
-
-                            <td>
-                                 {{ df_haver_short.name[i] }}
-                            </td>
-
-                            <td>
-                                 {{ df_haver_short.addr[i] }}
-                            </td>
-                            <td>
-                                 {{ df_haver_short.haver[i] }} Km
-                            </td>
-                        </tr>
-                    {% endif %}
-                {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
+        <input type="button" class="btn "
+               value="뒤로가기" onclick="history.back()" style="background-color : #caacd7; float: right;"/>
 
     </div>
+    <div>
+        <table class="table">
+            <thead>
+            <tr class="table-dark">
 
-        <div class = 'container'>
-            <div>
+                <th>제목</th>
+                <th>주소</th>
+                <th>거리</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in range(df_haver|length) %}
+            {% if df_haver_short.name[i]|length > 0 %}
+            {% if df_haver_short.haver[i] < 10 %}
+            <tr>
+
+                <td>
+                    {{ df_haver_short.name[i] }}
+                </td>
+
+                <td>
+                    {{ df_haver_short.addr[i] }}
+                </td>
+                <td>
+                    {{ df_haver_short.haver[i] }} Km
+                </td>
+            </tr>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class='container'>
+        <div>
             {{ iframe|safe }}
-            </div>
         </div>
+    </div>
 
-    </body>
+</body>
 </html>
 
 {% endblock %}

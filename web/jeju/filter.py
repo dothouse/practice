@@ -1,4 +1,3 @@
-
 def thousand_comma(value):
     # 숫자를 문자열로 변환
     value_str = str(value)
