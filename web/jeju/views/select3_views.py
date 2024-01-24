@@ -227,6 +227,9 @@ def show_select3():
     else:
         pension3_detail = "none"
 
+    #
+
+
     return render_template("select/select3.html",
                            result=result_query,
                            test=df_score,
@@ -234,4 +237,4 @@ def show_select3():
                            pension1_chk=pension1_chk, pension2_chk=pension2_chk, pension3_chk=pension3_chk,
                            pension1_detail=pension1_detail, pension2_detail=pension2_detail,
                            pension3_detail=pension3_detail,
-                           non_distance=count_list, test1=mean_Tour)
+                           non_distance=count_list, select_value = select_value)

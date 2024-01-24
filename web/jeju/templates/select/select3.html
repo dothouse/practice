@@ -44,12 +44,24 @@
                     <p>주변 맛집 갯수 -> {{ pension1_score.food_cnt.values[0] }}개</p>
                     <hr>
 
+                    {% if select_value.hospital == 1 %}
                     <p>주변 병원 갯수 -> {{ pension1_score.hospital_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.parm == 1 %}
                     <p>주변 약국 갯수 -> {{ pension1_score.parm_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.mart == 1 %}
                     <p>주변 마트 갯수 -> {{ pension1_score.mart_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.bank == 1 %}
                     <p>주변 은행 갯수 -> {{ pension1_score.bank_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.police == 1 %}
                     <p>주변 경찰서 갯수 -> {{ pension1_score.police_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.gift == 1 %}
                     <p>주변 기념품샵 갯수 -> {{ pension1_score.gift_cnt.values[0] }}개</p>
+                    {% endif %}
 
                     <form action='pension' method="post"
                           class='dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
@@ -95,12 +107,24 @@
                     <p>주변 맛집 갯수 -> {{ pension2_score.food_cnt.values[0] }}개</p>
                     <hr>
 
+                    {% if select_value.hospital == 1 %}
                     <p>주변 병원 갯수 -> {{ pension2_score.hospital_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.parm == 1 %}
                     <p>주변 약국 갯수 -> {{ pension2_score.parm_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.mart == 1 %}
                     <p>주변 마트 갯수 -> {{ pension2_score.mart_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.bank == 1 %}
                     <p>주변 은행 갯수 -> {{ pension2_score.bank_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.police == 1 %}
                     <p>주변 경찰서 갯수 -> {{ pension2_score.police_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.gift == 1 %}
                     <p>주변 기념품샵 갯수 -> {{ pension2_score.gift_cnt.values[0] }}개</p>
+                    {% endif %}
 
                     <form action='pension' method="post"
                           class='dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>
@@ -148,12 +172,24 @@
                     <hr>
 
 
+                    {% if select_value.hospital == 1 %}
                     <p>주변 병원 갯수 -> {{ pension3_score.hospital_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.parm == 1 %}
                     <p>주변 약국 갯수 -> {{ pension3_score.parm_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.mart == 1 %}
                     <p>주변 마트 갯수 -> {{ pension3_score.mart_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.bank == 1 %}
                     <p>주변 은행 갯수 -> {{ pension3_score.bank_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.police == 1 %}
                     <p>주변 경찰서 갯수 -> {{ pension3_score.police_cnt.values[0] }}개</p>
+                    {% endif %}
+                    {% if select_value.gift == 1 %}
                     <p>주변 기념품샵 갯수 -> {{ pension3_score.gift_cnt.values[0] }}개</p>
+                    {% endif %}
 
                     <form action='pension' method="post"
                           class='dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px'>

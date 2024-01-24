@@ -52,7 +52,7 @@ def show_select2():
         spot1Type_str = '테마, 실내, 박물관, 미술, 유적지, 역사'
         spot1Type = 5
     elif request.form['spot1'] == '':
-        return redirect(url_for('select.open_select1'))
+        return redirect(url_for('select1.open_select1'))
 
     # 여행지 소분류
     if request.form['spot2'] == '해변/드라이브':
@@ -80,7 +80,7 @@ def show_select2():
         spot2Type_str = request.form['spot2']
         spot2Type = 52
     elif request.form['spot2'] == '':
-        return redirect(url_for('select.open_select1'))
+        return redirect(url_for('select1.open_select1'))
 
     # 식당
     if request.form['food'] == 'foodType1':
