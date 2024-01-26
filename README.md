@@ -25,3 +25,7 @@ Python으로 연습한 자료
 
 
 ### train
+
+# 학원 프로젝트
+
+### project1
