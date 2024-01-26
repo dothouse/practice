@@ -1,2 +1,7 @@
 0data/
 
+project1/bigfile/
+
+project1/*.pyc
+project1/__pycache__
+
