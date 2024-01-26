@@ -4,7 +4,7 @@
 - 대용량 file은 개인 드라이브에 보관
 - 향후 연결예정
 
-# 개인 연습
+# 1. practice
 
 ### baekjoon
 https://www.acmicpc.net/
@@ -18,7 +18,7 @@ https://www.acmicpc.net/
 R 수업때 연습했던 복지패널 연습을
 Python으로 연습한 자료
 
-# Project
+# 2. Personal Project
 
 ### private_education
 
@@ -26,6 +26,6 @@ Python으로 연습한 자료
 
 ### train
 
-# 학원 프로젝트
+# 3. Team project
 
 ### project1
