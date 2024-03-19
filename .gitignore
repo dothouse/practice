@@ -1,8 +1,11 @@
 0data/
 
 project1/bigfile/
-
 project1/*.pyc
 project1/__pycache__
 
 book/data/
+
+project2/data/
+project2/*.pyc
+project2/__pycache__
