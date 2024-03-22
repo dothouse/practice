@@ -9,3 +9,4 @@ book/data/
 project2/data/
 project2/*.pyc
 project2/__pycache__
+project2/chabot_practice
